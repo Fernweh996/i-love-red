@@ -57,14 +57,14 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
     <div className="relative overflow-hidden bg-white">
       {/* Delete action */}
       <div className="absolute right-0 top-0 bottom-0 w-[72px] flex items-center justify-center bg-red-500">
-        <button onClick={handleDelete} className="text-white text-[14px] font-medium w-full h-full">
+        <button onClick={handleDelete} className="text-white text-[15px] font-medium w-full h-full">
           删除
         </button>
       </div>
 
       {/* Card body */}
       <div
-        className={`relative bg-white flex items-center min-h-[68px] px-4 cursor-pointer active:bg-ios-fill/20 transition-transform ${
+        className={`relative bg-white flex items-center min-h-[72px] px-4 cursor-pointer active:bg-ios-fill/20 transition-transform ${
           !isLast ? 'border-b border-ios-separator/15' : ''
         }`}
         style={{
@@ -81,17 +81,17 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
       >
         {/* Left: fund name + market value */}
         <div className="w-[140px] flex-shrink-0 pr-3 py-3">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <p className="text-[15px] font-medium text-ios-label leading-tight truncate">
               {position.fundName}
             </p>
             {typeLabel && (
-              <span className="flex-shrink-0 text-[10px] text-ios-blue bg-ios-blue/10 px-1.5 py-[1px] rounded">
+              <span className="flex-shrink-0 text-[11px] text-ios-blue bg-ios-blue/10 px-1 py-[1px] rounded">
                 {typeLabel}
               </span>
             )}
           </div>
-          <p className="text-[12px] text-ios-gray mt-0.5">
+          <p className="text-[13px] text-ios-gray mt-1">
             ¥{formatCurrency(marketValue)}
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               <p className={`text-[15px] font-semibold ${getPriceColor(todayChangeRate)}`}>
                 {formatPercent(todayChangeRate)}
               </p>
-              <p className={`text-[12px] mt-0.5 ${getPriceColor(todayChange)}`}>
+              <p className={`text-[11px] mt-1 ${getPriceColor(todayChange)}`}>
                 {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
               </p>
             </div>
@@ -112,7 +112,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               <p className={`text-[15px] font-semibold ${getPriceColor(profit)}`}>
                 {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
               </p>
-              <p className={`text-[12px] mt-0.5 ${getPriceColor(profitRate)}`}>
+              <p className={`text-[11px] mt-1 ${getPriceColor(profitRate)}`}>
                 {formatPercent(profitRate)}
               </p>
             </div>
@@ -121,24 +121,24 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               <p className="text-[15px] text-ios-label">
                 {currentNav.toFixed(4)}
               </p>
-              <p className="text-[11px] text-ios-gray mt-0.5 flex items-center justify-center gap-0.5">
+              <p className="text-[11px] text-ios-gray mt-1 flex items-center justify-center gap-0.5">
                 <NavSourceBadge source={pnl.estimate?.navSource} />
                 净值
               </p>
             </div>
 
-            <div className="w-[90px] flex-shrink-0 text-center py-3">
+            <div className="w-[88px] flex-shrink-0 text-center py-3">
               <p className="text-[15px] text-ios-label">
                 {position.shares.toFixed(2)}
               </p>
-              <p className="text-[11px] text-ios-gray mt-0.5">份额</p>
+              <p className="text-[11px] text-ios-gray mt-1">份额</p>
             </div>
 
             <div className="w-[80px] flex-shrink-0 text-center py-3">
               <p className="text-[15px] text-ios-label">
                 {position.costNav.toFixed(4)}
               </p>
-              <p className="text-[11px] text-ios-gray mt-0.5">成本</p>
+              <p className="text-[11px] text-ios-gray mt-1">成本</p>
             </div>
           </div>
         </div>

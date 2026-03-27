@@ -20,22 +20,17 @@ export default function AppShell({ children }: Props) {
 
   const hideChrome = location.pathname.startsWith('/fund/') || location.pathname.startsWith('/import') || location.pathname.startsWith('/groups') || location.pathname.startsWith('/settings');
 
-  // Lift useFundEstimate to app shell level — shared by portfolio + watchlist
   useFundEstimate();
 
-  // Check PIN lock on mount and when page becomes visible again
   useEffect(() => {
     checkShouldLock();
     const handler = () => {
-      if (document.visibilityState === 'visible') {
-        checkShouldLock();
-      }
+      if (document.visibilityState === 'visible') checkShouldLock();
     };
     document.addEventListener('visibilitychange', handler);
     return () => document.removeEventListener('visibilitychange', handler);
   }, [checkShouldLock]);
 
-  // Listen for 'open-search' custom event from child components (e.g. Dashboard "添加持仓" button)
   useEffect(() => {
     const handler = () => setShowSearch(true);
     window.addEventListener('open-search', handler);
@@ -44,19 +39,18 @@ export default function AppShell({ children }: Props) {
 
   return (
     <div className="min-h-screen bg-ios-bg">
-      <main className={`max-w-lg mx-auto ${hideChrome ? '' : 'pb-20'}`}>
-        {/* Top search bar (only on tab pages) */}
+      <main className={`max-w-lg mx-auto ${hideChrome ? '' : 'pb-[80px]'}`}>
         {!hideChrome && (
           <>
             <div
-              className="bg-white px-4 pt-3 pb-2"
+              className="bg-white px-4 pt-2 pb-2"
               onClick={() => setShowSearch(true)}
             >
               <div className="flex items-center bg-ios-fill/50 rounded-[10px] px-3 py-2 cursor-pointer">
                 <svg className="w-4 h-4 text-ios-gray mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span className="text-[16px] text-ios-gray">搜索基金代码、名称或拼音</span>
+                <span className="text-[15px] text-ios-gray">搜索基金代码、名称或拼音</span>
               </div>
             </div>
             <MarketIndexBar />

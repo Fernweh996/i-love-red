@@ -16,7 +16,6 @@ type SortKey = 'todayChange' | 'profit' | 'marketValue';
 
 function TradingStatus({ hasConfirmedNav }: { hasConfirmedNav: boolean }) {
   const trading = isTradingTime();
-
   let dotClass: string;
   let label: string;
 
@@ -32,9 +31,9 @@ function TradingStatus({ hasConfirmedNav }: { hasConfirmedNav: boolean }) {
   }
 
   return (
-    <div className="flex items-center justify-center gap-1.5 py-2 mx-4">
-      <span className={`w-1.5 h-1.5 rounded-full ${dotClass}`} />
-      <span className="text-[14px] text-ios-gray">{label}</span>
+    <div className="flex items-center justify-center gap-[6px] py-2 mx-4">
+      <span className={`w-[6px] h-[6px] rounded-full ${dotClass}`} />
+      <span className="text-[13px] text-ios-gray">{label}</span>
     </div>
   );
 }
@@ -70,16 +69,12 @@ export default function Dashboard() {
       const profitRate = pos.totalCost > 0 ? (profit / pos.totalCost) * 100 : 0;
       const todayChange = pos.shares * (currentNav - lastNav);
       const todayChangeRate = getCurrentChangeRate(estimate);
-
       return { position: pos, currentNav, marketValue, profit, profitRate, todayChange, todayChangeRate, estimate };
     });
-
     list.sort((a, b) => {
-      const va = a[sortKey];
-      const vb = b[sortKey];
+      const va = a[sortKey], vb = b[sortKey];
       return sortAsc ? va - vb : vb - va;
     });
-
     return list;
   }, [filteredPositions, estimates, sortKey, sortAsc]);
 
@@ -96,7 +91,7 @@ export default function Dashboard() {
   };
 
   const SortIcon = ({ active, asc }: { active: boolean; asc: boolean }) => (
-    <span className="inline-flex flex-col ml-0.5 leading-none">
+    <span className="inline-flex flex-col ml-[2px] leading-none">
       <span className={`text-[8px] leading-none ${active && !asc ? 'text-ios-blue' : 'text-ios-fill'}`}>▲</span>
       <span className={`text-[8px] leading-none ${active && asc ? 'text-ios-blue' : 'text-ios-fill'}`}>▼</span>
     </span>
@@ -148,29 +143,29 @@ export default function Dashboard() {
           <TradingStatus hasConfirmedNav={pnlList.some((p) => p.estimate?.navSource === 'confirmed')} />
         </div>
 
-        {/* Column Header */}
-        <div className="flex items-center px-4 mx-4 mt-1 mb-1 min-h-[32px]">
+        {/* Column Header — 8pt aligned */}
+        <div className="flex items-center px-4 mx-4 mt-2 mb-2 min-h-[32px]">
           <div className="w-[140px] flex-shrink-0 pr-3">
-            <span className="text-[14px] text-ios-gray">基金名称</span>
+            <span className="text-[13px] text-ios-gray">基金名称</span>
           </div>
           <div className="flex-1 overflow-x-auto scrollbar-hide" ref={registerScrollRef(0)} onScroll={handleSyncScroll(0)}>
             <div className="flex items-center min-w-max">
               <button className="w-[100px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('todayChange')}>
-                <span className="text-[14px] text-ios-gray">当日涨跌</span>
+                <span className="text-[13px] text-ios-gray">当日涨跌</span>
                 <SortIcon active={sortKey === 'todayChange'} asc={sortAsc} />
               </button>
               <button className="w-[100px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('profit')}>
-                <span className="text-[14px] text-ios-gray">持有收益</span>
+                <span className="text-[13px] text-ios-gray">持有收益</span>
                 <SortIcon active={sortKey === 'profit'} asc={sortAsc} />
               </button>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-ios-gray">最新净值</span>
+                <span className="text-[13px] text-ios-gray">最新净值</span>
               </div>
-              <div className="w-[90px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-ios-gray">持有份额</span>
+              <div className="w-[88px] flex-shrink-0 text-center">
+                <span className="text-[13px] text-ios-gray">持有份额</span>
               </div>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-ios-gray">成本净值</span>
+                <span className="text-[13px] text-ios-gray">成本净值</span>
               </div>
             </div>
           </div>
@@ -193,9 +188,9 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Bottom actions — iOS style */}
-        <div className="flex items-center justify-between px-4 py-3 mt-2">
-          <div className="flex items-center gap-3">
+        {/* Bottom actions */}
+        <div className="flex items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
               className="text-[15px] text-ios-blue font-medium active:opacity-60 transition-opacity"
@@ -209,7 +204,7 @@ export default function Dashboard() {
               📷 截图导入
             </button>
           </div>
-          <span className="text-[12px] text-ios-gray/50">← 左滑删除</span>
+          <span className="text-[11px] text-ios-gray/50">← 左滑删除</span>
         </div>
       </div>
     </PullToRefresh>

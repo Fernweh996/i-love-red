@@ -26,14 +26,14 @@ export default function TabBar() {
             <button
               key={tab.path}
               onClick={() => navigate(tab.path)}
-              className={`flex-1 flex flex-col items-center pt-1.5 pb-1 transition-colors ${
+              className={`flex-1 flex flex-col items-center py-2 transition-colors ${
                 isActive ? 'text-ios-blue' : 'text-ios-gray'
               }`}
             >
-              <svg className="w-6 h-6 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                 <path d={tab.icon} />
               </svg>
-              <span className={`text-[10px] ${isActive ? 'font-semibold' : ''}`}>{tab.label}</span>
+              <span className={`text-[10px] mt-[2px] ${isActive ? 'font-semibold' : ''}`}>{tab.label}</span>
             </button>
           );
         })}

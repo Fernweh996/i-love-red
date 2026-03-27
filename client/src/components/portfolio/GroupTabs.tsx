@@ -22,13 +22,12 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
   const getCount = getCountProp || defaultGetCount;
 
   return (
-    <div className="flex items-center bg-white pt-1 pb-1">
+    <div className="flex items-center bg-white py-2">
       <div className="flex-1 overflow-x-auto scrollbar-hide">
-        <div className="flex items-center min-w-max px-4 gap-1">
-          {/* "账户汇总" tab */}
+        <div className="flex items-center min-w-max px-4 gap-2">
           <button
             onClick={() => onGroupChange('all')}
-            className={`flex-shrink-0 px-4 py-2 rounded-full text-[15px] transition-all ${
+            className={`flex-shrink-0 px-4 py-[6px] rounded-full text-[15px] transition-all ${
               activeGroupId === 'all'
                 ? 'bg-ios-blue text-white font-medium'
                 : 'text-ios-label'
@@ -37,7 +36,6 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
             账户汇总
           </button>
 
-          {/* Group tabs */}
           {sortedGroups.map((group) => {
             const count = getCount(group.id);
             const isActive = activeGroupId === group.id;
@@ -45,7 +43,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
               <button
                 key={group.id}
                 onClick={() => onGroupChange(group.id)}
-                className={`flex-shrink-0 px-4 py-2 rounded-full text-[15px] transition-all flex items-center gap-1.5 ${
+                className={`flex-shrink-0 px-4 py-[6px] rounded-full text-[15px] transition-all flex items-center gap-[6px] ${
                   isActive
                     ? 'bg-ios-blue text-white font-medium'
                     : 'text-ios-label'
@@ -53,7 +51,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
               >
                 <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={18} />
                 <span>{group.name}</span>
-                <span className={`text-[12px] ${isActive ? 'text-white/70' : 'text-ios-gray'}`}>
+                <span className={`text-[11px] ${isActive ? 'text-white/70' : 'text-ios-gray'}`}>
                   {count}
                 </span>
               </button>
@@ -62,7 +60,6 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
         </div>
       </div>
 
-      {/* Management icon */}
       <button
         onClick={() => navigate('/groups')}
         className="flex-shrink-0 px-3 py-2 text-ios-blue transition-colors"
