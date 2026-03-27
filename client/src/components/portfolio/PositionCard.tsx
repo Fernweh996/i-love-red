@@ -76,7 +76,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               </span>
             )}
           </div>
-          <p className="text-[12px] text-ink-faint mt-1 tabular-nums">¥{formatCurrency(marketValue)}</p>
+          <p className="text-[14px] text-ink-faint mt-1 tabular-nums">¥{formatCurrency(marketValue)}</p>
         </div>
 
         <div className="flex-1 overflow-x-auto scrollbar-hide" ref={scrollRef} onScroll={onScroll}>
@@ -85,7 +85,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               <p className={`text-[15px] font-medium tabular-nums ${getPriceColor(todayChangeRate)}`}>
                 {formatPercent(todayChangeRate)}
               </p>
-              <p className={`text-[12px] mt-0.5 tabular-nums ${getPriceColor(todayChange)}`}>
+              <p className={`text-[14px] mt-0.5 tabular-nums ${getPriceColor(todayChange)}`}>
                 {todayChange >= 0 ? '+' : ''}{formatCurrency(todayChange)}
               </p>
             </div>
@@ -93,23 +93,23 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               <p className={`text-[15px] font-medium tabular-nums ${getPriceColor(profit)}`}>
                 {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
               </p>
-              <p className={`text-[12px] mt-0.5 tabular-nums ${getPriceColor(profitRate)}`}>
+              <p className={`text-[14px] mt-0.5 tabular-nums ${getPriceColor(profitRate)}`}>
                 {formatPercent(profitRate)}
               </p>
             </div>
             <div className="w-[80px] flex-shrink-0 text-center py-3">
               <p className="text-[15px] text-ink tabular-nums">{currentNav.toFixed(4)}</p>
-              <p className="text-[12px] text-ink-faint mt-0.5 flex items-center justify-center gap-0.5">
+              <p className="text-[14px] text-ink-faint mt-0.5 flex items-center justify-center gap-0.5">
                 <NavSourceBadge source={pnl.estimate?.navSource} />净值
               </p>
             </div>
             <div className="w-[88px] flex-shrink-0 text-center py-3">
               <p className="text-[15px] text-ink tabular-nums">{position.shares.toFixed(2)}</p>
-              <p className="text-[12px] text-ink-faint mt-0.5">份额</p>
+              <p className="text-[14px] text-ink-faint mt-0.5">份额</p>
             </div>
             <div className="w-[80px] flex-shrink-0 text-center py-3">
               <p className="text-[15px] text-ink tabular-nums">{position.costNav.toFixed(4)}</p>
-              <p className="text-[12px] text-ink-faint mt-0.5">成本</p>
+              <p className="text-[14px] text-ink-faint mt-0.5">成本</p>
             </div>
           </div>
         </div>

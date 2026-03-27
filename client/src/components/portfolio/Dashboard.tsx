@@ -33,7 +33,7 @@ function TradingStatus({ hasConfirmedNav }: { hasConfirmedNav: boolean }) {
   return (
     <div className="flex items-center justify-center gap-1.5 py-2">
       <span className={`w-1 h-1 rounded-full ${dotClass}`} />
-      <span className="text-[12px] text-ink-tertiary tracking-label">{label}</span>
+      <span className="text-[14px] text-ink-tertiary tracking-label">{label}</span>
     </div>
   );
 }
@@ -125,26 +125,26 @@ export default function Dashboard() {
       {/* Column header */}
       <div className="flex items-center px-6 bg-surface min-h-[32px]">
         <div className="w-[140px] flex-shrink-0 pr-4">
-          <span className="text-[12px] text-ink-tertiary tracking-label uppercase">名称</span>
+          <span className="text-[14px] text-ink-tertiary tracking-label uppercase">名称</span>
         </div>
         <div className="flex-1 overflow-x-auto scrollbar-hide" ref={registerScrollRef(0)} onScroll={handleSyncScroll(0)}>
           <div className="flex items-center min-w-max">
             <button className="w-[96px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('todayChange')}>
-              <span className="text-[12px] text-ink-tertiary tracking-label uppercase">涨跌</span>
+              <span className="text-[14px] text-ink-tertiary tracking-label uppercase">涨跌</span>
               <SortIcon active={sortKey === 'todayChange'} asc={sortAsc} />
             </button>
             <button className="w-[96px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('profit')}>
-              <span className="text-[12px] text-ink-tertiary tracking-label uppercase">收益</span>
+              <span className="text-[14px] text-ink-tertiary tracking-label uppercase">收益</span>
               <SortIcon active={sortKey === 'profit'} asc={sortAsc} />
             </button>
             <div className="w-[80px] flex-shrink-0 text-center">
-              <span className="text-[12px] text-ink-tertiary tracking-label uppercase">净值</span>
+              <span className="text-[14px] text-ink-tertiary tracking-label uppercase">净值</span>
             </div>
             <div className="w-[88px] flex-shrink-0 text-center">
-              <span className="text-[12px] text-ink-tertiary tracking-label uppercase">份额</span>
+              <span className="text-[14px] text-ink-tertiary tracking-label uppercase">份额</span>
             </div>
             <div className="w-[80px] flex-shrink-0 text-center">
-              <span className="text-[12px] text-ink-tertiary tracking-label uppercase">成本</span>
+              <span className="text-[14px] text-ink-tertiary tracking-label uppercase">成本</span>
             </div>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function Dashboard() {
             截图导入
           </button>
         </div>
-        <span className="text-[12px] text-ink-faint">← 滑动删除</span>
+        <span className="text-[14px] text-ink-faint">← 滑动删除</span>
       </div>
     </PullToRefresh>
   );

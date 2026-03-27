@@ -61,19 +61,19 @@ export default function AccountOverview({ onGroupSelect }: Props) {
     <div>
       {/* Hero: total assets */}
       <div className="px-6 pt-8 pb-6 bg-surface">
-        <p className="text-[12px] text-ink-tertiary tracking-label uppercase mb-2">总资产</p>
+        <p className="text-[14px] text-ink-tertiary tracking-label uppercase mb-2">总资产</p>
         <p className="text-[32px] font-medium text-ink leading-none tracking-tight tabular-nums">
           {formatCurrency(overall.totalMarketValue)}
         </p>
         <div className="flex items-center gap-4 mt-3">
           <div>
-            <span className="text-[12px] text-ink-tertiary tracking-label uppercase">收益</span>
+            <span className="text-[14px] text-ink-tertiary tracking-label uppercase">收益</span>
             <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(overall.profit)}`}>
               {overall.profit >= 0 ? '+' : ''}{formatCurrency(overall.profit)}
             </span>
           </div>
           <div>
-            <span className="text-[12px] text-ink-tertiary tracking-label uppercase">今日</span>
+            <span className="text-[14px] text-ink-tertiary tracking-label uppercase">今日</span>
             <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(overall.todayChange)}`}>
               {overall.todayChange >= 0 ? '+' : ''}{formatCurrency(overall.todayChange)}
             </span>
@@ -96,7 +96,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
 
             <div className="flex-1 min-w-0 text-left">
               <p className="text-[15px] text-ink">{group.name}</p>
-              <p className="text-[12px] text-ink-tertiary mt-0.5 tracking-label">
+              <p className="text-[14px] text-ink-tertiary mt-0.5 tracking-label">
                 {totalCount} 只 · ¥{formatCurrency(totalMarketValue)}
               </p>
             </div>
@@ -105,7 +105,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
               <p className={`text-[15px] font-medium tabular-nums ${getPriceColor(todayChange)}`}>
                 {todayChange >= 0 ? '+' : ''}{formatCurrency(todayChange)}
               </p>
-              <p className={`text-[12px] mt-0.5 tabular-nums ${getPriceColor(profit)}`}>
+              <p className={`text-[14px] mt-0.5 tabular-nums ${getPriceColor(profit)}`}>
                 {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
               </p>
             </div>
