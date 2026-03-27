@@ -20,20 +20,20 @@ function TradingStatus({ hasConfirmedNav }: { hasConfirmedNav: boolean }) {
   let label: string;
 
   if (trading) {
-    dotClass = 'bg-green-500 animate-pulse';
-    label = '交易中 · 估值实时刷新';
+    dotClass = 'bg-fall animate-pulse';
+    label = '交易中';
   } else if (hasConfirmedNav) {
-    dotClass = 'bg-orange-400';
-    label = '已收盘 · 已更新今日净值';
+    dotClass = 'bg-ink-faint';
+    label = '已收盘 · 净值已更新';
   } else {
-    dotClass = 'bg-ios-gray';
-    label = '已收盘 · 等待净值公布';
+    dotClass = 'bg-ink-faint';
+    label = '已收盘 · 等待净值';
   }
 
   return (
-    <div className="flex items-center justify-center gap-[6px] py-2 mx-4">
-      <span className={`w-[6px] h-[6px] rounded-full ${dotClass}`} />
-      <span className="text-[13px] text-ios-gray">{label}</span>
+    <div className="flex items-center justify-center gap-1.5 py-2">
+      <span className={`w-1 h-1 rounded-full ${dotClass}`} />
+      <span className="text-[11px] text-ink-tertiary tracking-label">{label}</span>
     </div>
   );
 }
@@ -50,8 +50,8 @@ export default function Dashboard() {
 
   const groupLabel = useMemo(() => {
     if (activeGroupId === 'all') return undefined;
-    const group = groups.find((g) => g.id === activeGroupId);
-    return group ? `${group.icon} ${group.name}资产` : undefined;
+    const g = groups.find((g) => g.id === activeGroupId);
+    return g ? g.name : undefined;
   }, [activeGroupId, groups]);
 
   const filteredPositions = useMemo(() => {
@@ -61,20 +61,17 @@ export default function Dashboard() {
 
   const pnlList: PositionPnL[] = useMemo(() => {
     const list = filteredPositions.map((pos) => {
-      const estimate = estimates[pos.fundCode];
-      const currentNav = getCurrentNav(estimate, pos.costNav);
-      const lastNav = estimate?.lastNav || pos.costNav;
-      const marketValue = pos.shares * currentNav;
-      const profit = marketValue - pos.totalCost;
+      const est = estimates[pos.fundCode];
+      const nav = getCurrentNav(est, pos.costNav);
+      const last = est?.lastNav || pos.costNav;
+      const mv = pos.shares * nav;
+      const profit = mv - pos.totalCost;
       const profitRate = pos.totalCost > 0 ? (profit / pos.totalCost) * 100 : 0;
-      const todayChange = pos.shares * (currentNav - lastNav);
-      const todayChangeRate = getCurrentChangeRate(estimate);
-      return { position: pos, currentNav, marketValue, profit, profitRate, todayChange, todayChangeRate, estimate };
+      const todayChange = pos.shares * (nav - last);
+      const todayChangeRate = getCurrentChangeRate(est);
+      return { position: pos, currentNav: nav, marketValue: mv, profit, profitRate, todayChange, todayChangeRate, estimate: est };
     });
-    list.sort((a, b) => {
-      const va = a[sortKey], vb = b[sortKey];
-      return sortAsc ? va - vb : vb - va;
-    });
+    list.sort((a, b) => sortAsc ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey]);
     return list;
   }, [filteredPositions, estimates, sortKey, sortAsc]);
 
@@ -86,126 +83,106 @@ export default function Dashboard() {
   const handleRefresh = async () => {
     const codes = [...new Set(positions.map((p) => p.fundCode))];
     if (codes.length === 0) return;
-    const data = await batchFundEstimate(codes);
-    useFundCacheStore.getState().setEstimates(data);
+    useFundCacheStore.getState().setEstimates(await batchFundEstimate(codes));
   };
 
   const SortIcon = ({ active, asc }: { active: boolean; asc: boolean }) => (
-    <span className="inline-flex flex-col ml-[2px] leading-none">
-      <span className={`text-[8px] leading-none ${active && !asc ? 'text-ios-blue' : 'text-ios-fill'}`}>▲</span>
-      <span className={`text-[8px] leading-none ${active && asc ? 'text-ios-blue' : 'text-ios-fill'}`}>▼</span>
+    <span className="inline-flex flex-col ml-0.5 leading-none">
+      <span className={`text-[7px] leading-none ${active && !asc ? 'text-ink' : 'text-ink-faint'}`}>▲</span>
+      <span className={`text-[7px] leading-none ${active && asc ? 'text-ink' : 'text-ink-faint'}`}>▼</span>
     </span>
   );
 
-  const importGroupId = activeGroupId === 'all'
-    ? (groups.length > 0 ? groups[0].id : 'licaitong')
-    : activeGroupId;
+  const importGroupId = activeGroupId === 'all' ? (groups[0]?.id || 'licaitong') : activeGroupId;
 
   const scrollRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isScrollingRef = useRef(false);
-
-  const registerScrollRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
-    scrollRefs.current[index] = el;
-  }, []);
-
-  const handleSyncScroll = useCallback((sourceIndex: number) => () => {
+  const registerScrollRef = useCallback((i: number) => (el: HTMLDivElement | null) => { scrollRefs.current[i] = el; }, []);
+  const handleSyncScroll = useCallback((src: number) => () => {
     if (isScrollingRef.current) return;
     isScrollingRef.current = true;
-    const source = scrollRefs.current[sourceIndex];
-    if (!source) { isScrollingRef.current = false; return; }
-    const left = source.scrollLeft;
-    scrollRefs.current.forEach((el, i) => {
-      if (el && i !== sourceIndex) el.scrollLeft = left;
-    });
+    const s = scrollRefs.current[src];
+    if (!s) { isScrollingRef.current = false; return; }
+    scrollRefs.current.forEach((el, i) => { if (el && i !== src) el.scrollLeft = s.scrollLeft; });
     isScrollingRef.current = false;
   }, []);
 
-  // Account summary view
   if (activeGroupId === 'all') {
     return (
       <PullToRefresh onRefresh={handleRefresh}>
-        <div className="pb-2">
-          <GroupTabs activeGroupId={activeGroupId} onGroupChange={setActiveGroupId} />
-          <AccountOverview onGroupSelect={setActiveGroupId} />
-        </div>
+        <GroupTabs activeGroupId={activeGroupId} onGroupChange={setActiveGroupId} />
+        <AccountOverview onGroupSelect={setActiveGroupId} />
       </PullToRefresh>
     );
   }
 
-  // Single group view
   return (
     <PullToRefresh onRefresh={handleRefresh}>
-      <div className="pb-2">
-        <GroupTabs activeGroupId={activeGroupId} onGroupChange={setActiveGroupId} />
-        <ProfitSummary pnlList={pnlList} groupLabel={groupLabel} />
+      <GroupTabs activeGroupId={activeGroupId} onGroupChange={setActiveGroupId} />
+      <ProfitSummary pnlList={pnlList} groupLabel={groupLabel} />
+      <TradingStatus hasConfirmedNav={pnlList.some((p) => p.estimate?.navSource === 'confirmed')} />
 
-        <div className="mt-2">
-          <TradingStatus hasConfirmedNav={pnlList.some((p) => p.estimate?.navSource === 'confirmed')} />
+      {/* Column header */}
+      <div className="flex items-center px-6 bg-surface min-h-[32px]">
+        <div className="w-[140px] flex-shrink-0 pr-4">
+          <span className="text-[11px] text-ink-tertiary tracking-label uppercase">名称</span>
         </div>
-
-        {/* Column Header — 8pt aligned */}
-        <div className="flex items-center px-4 mx-4 mt-2 mb-2 min-h-[32px]">
-          <div className="w-[140px] flex-shrink-0 pr-3">
-            <span className="text-[13px] text-ios-gray">基金名称</span>
-          </div>
-          <div className="flex-1 overflow-x-auto scrollbar-hide" ref={registerScrollRef(0)} onScroll={handleSyncScroll(0)}>
-            <div className="flex items-center min-w-max">
-              <button className="w-[100px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('todayChange')}>
-                <span className="text-[13px] text-ios-gray">当日涨跌</span>
-                <SortIcon active={sortKey === 'todayChange'} asc={sortAsc} />
-              </button>
-              <button className="w-[100px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('profit')}>
-                <span className="text-[13px] text-ios-gray">持有收益</span>
-                <SortIcon active={sortKey === 'profit'} asc={sortAsc} />
-              </button>
-              <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[13px] text-ios-gray">最新净值</span>
-              </div>
-              <div className="w-[88px] flex-shrink-0 text-center">
-                <span className="text-[13px] text-ios-gray">持有份额</span>
-              </div>
-              <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[13px] text-ios-gray">成本净值</span>
-              </div>
+        <div className="flex-1 overflow-x-auto scrollbar-hide" ref={registerScrollRef(0)} onScroll={handleSyncScroll(0)}>
+          <div className="flex items-center min-w-max">
+            <button className="w-[96px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('todayChange')}>
+              <span className="text-[11px] text-ink-tertiary tracking-label uppercase">涨跌</span>
+              <SortIcon active={sortKey === 'todayChange'} asc={sortAsc} />
+            </button>
+            <button className="w-[96px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('profit')}>
+              <span className="text-[11px] text-ink-tertiary tracking-label uppercase">收益</span>
+              <SortIcon active={sortKey === 'profit'} asc={sortAsc} />
+            </button>
+            <div className="w-[80px] flex-shrink-0 text-center">
+              <span className="text-[11px] text-ink-tertiary tracking-label uppercase">净值</span>
+            </div>
+            <div className="w-[88px] flex-shrink-0 text-center">
+              <span className="text-[11px] text-ink-tertiary tracking-label uppercase">份额</span>
+            </div>
+            <div className="w-[80px] flex-shrink-0 text-center">
+              <span className="text-[11px] text-ink-tertiary tracking-label uppercase">成本</span>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Position List */}
-        {filteredPositions.length === 0 ? (
-          <EmptyState icon="📭" title="该账户暂无持仓" description="点击下方添加持仓或截图导入" />
-        ) : (
-          <div key={activeGroupId} className="mx-4 rounded-2xl bg-white overflow-hidden animate-fade-in-up">
-            {pnlList.map((pnl, index) => (
-              <PositionCard
-                key={`${pnl.position.fundCode}-${pnl.position.groupId}`}
-                pnl={pnl}
-                scrollRef={registerScrollRef(index + 1)}
-                onScroll={handleSyncScroll(index + 1)}
-                isLast={index === pnlList.length - 1}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Bottom actions */}
-        <div className="flex items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
-              className="text-[15px] text-ios-blue font-medium active:opacity-60 transition-opacity"
-            >
-              + 添加持仓
-            </button>
-            <button
-              onClick={() => navigate(`/import?group=${importGroupId}`)}
-              className="text-[15px] text-ios-blue font-medium active:opacity-60 transition-opacity"
-            >
-              📷 截图导入
-            </button>
-          </div>
-          <span className="text-[11px] text-ios-gray/50">← 左滑删除</span>
+      {filteredPositions.length === 0 ? (
+        <EmptyState icon="📭" title="暂无持仓" description="添加持仓或截图导入" />
+      ) : (
+        <div key={activeGroupId} className="bg-surface animate-fade-in-up">
+          {pnlList.map((pnl, i) => (
+            <PositionCard
+              key={`${pnl.position.fundCode}-${pnl.position.groupId}`}
+              pnl={pnl}
+              scrollRef={registerScrollRef(i + 1)}
+              onScroll={handleSyncScroll(i + 1)}
+              isLast={i === pnlList.length - 1}
+            />
+          ))}
         </div>
+      )}
+
+      {/* Actions — minimal text links */}
+      <div className="flex items-center justify-between px-6 py-6">
+        <div className="flex items-center gap-6">
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
+            className="text-[13px] text-ink-secondary tracking-label uppercase active:text-ink transition-colors"
+          >
+            + 添加
+          </button>
+          <button
+            onClick={() => navigate(`/import?group=${importGroupId}`)}
+            className="text-[13px] text-ink-secondary tracking-label uppercase active:text-ink transition-colors"
+          >
+            截图导入
+          </button>
+        </div>
+        <span className="text-[11px] text-ink-faint">← 滑动删除</span>
       </div>
     </PullToRefresh>
   );

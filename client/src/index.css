@@ -4,15 +4,12 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont,
-    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
-    Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F2F2F7;
+  background-color: #FAFAFA;
 }
 
-/* Hide scrollbar for horizontal scroll */
+/* Hide scrollbar */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -21,34 +18,31 @@ body {
   display: none;
 }
 
-/* Slide up animation for modal */
+/* Animations — minimal, intentional */
 @keyframes slide-up {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
 .animate-slide-up {
-  animation: slide-up 0.25s ease-out;
+  animation: slide-up 0.2s ease-out;
 }
 
-/* Toast slide-up + fade */
 @keyframes toast-up {
   from { opacity: 0; transform: translateY(20px) translateX(-50%); }
   to { opacity: 1; transform: translateY(0) translateX(-50%); }
 }
 .animate-toast-up {
-  animation: toast-up 0.25s ease-out;
+  animation: toast-up 0.2s ease-out;
 }
 
-/* Fade in for group switching */
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in-up {
-  animation: fade-in-up 0.15s ease-out;
+  animation: fade-in-up 0.2s ease-out;
 }
 
-/* Shake animation for PIN error */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-8px); }

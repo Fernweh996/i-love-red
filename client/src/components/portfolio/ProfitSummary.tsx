@@ -25,40 +25,40 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
   };
 
   return (
-    <div className="mx-4 mt-4 rounded-2xl bg-white p-4">
-      <div className="flex items-end justify-between">
+    <div className="px-6 pt-8 pb-6 bg-surface">
+      <div className="flex items-center gap-2 mb-2">
+        <p className="text-[11px] text-ink-tertiary tracking-label uppercase">
+          {groupLabel || '资产'}
+        </p>
+        {onRefresh && (
+          <button
+            onClick={handleRefresh}
+            className={`text-ink-faint hover:text-ink-secondary transition-colors ${refreshing ? 'animate-spin' : ''}`}
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+        )}
+      </div>
+      <p className="text-[40px] font-light text-ink leading-none tracking-tight tabular-nums">
+        {formatCurrency(totalMarketValue)}
+      </p>
+      <div className="flex items-center gap-4 mt-3">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <p className="text-[13px] text-ios-gray">{groupLabel || '账户资产'}</p>
-            {onRefresh && (
-              <button
-                onClick={handleRefresh}
-                className={`text-ios-gray hover:text-ios-blue transition-transform ${refreshing ? 'animate-spin' : ''}`}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-              </button>
-            )}
-          </div>
-          <p className="text-[34px] font-semibold text-ios-label leading-none tracking-tight">
-            {formatCurrency(totalMarketValue)}
-          </p>
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-[13px] text-ios-gray">累计收益</span>
-            <span className={`text-[15px] font-medium ${getPriceColor(totalProfit)}`}>
-              {totalProfit >= 0 ? '+' : ''}{formatCurrency(totalProfit)}
-            </span>
-            <span className={`text-[13px] ${getPriceColor(totalProfitRate)}`}>
-              {formatPercent(totalProfitRate)}
-            </span>
-          </div>
+          <span className="text-[11px] text-ink-tertiary tracking-label uppercase">收益</span>
+          <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(totalProfit)}`}>
+            {totalProfit >= 0 ? '+' : ''}{formatCurrency(totalProfit)}
+          </span>
+          <span className={`text-[11px] ml-1 tabular-nums ${getPriceColor(totalProfitRate)}`}>
+            {formatPercent(totalProfitRate)}
+          </span>
         </div>
-        <div className="text-right">
-          <p className="text-[13px] text-ios-gray mb-2">今日</p>
-          <p className={`text-[22px] font-semibold leading-none ${getPriceColor(todayChange)}`}>
-            {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
-          </p>
+        <div>
+          <span className="text-[11px] text-ink-tertiary tracking-label uppercase">今日</span>
+          <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(todayChange)}`}>
+            {todayChange >= 0 ? '+' : ''}{formatCurrency(todayChange)}
+          </span>
         </div>
       </div>
     </div>

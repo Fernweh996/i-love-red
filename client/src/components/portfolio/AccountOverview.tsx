@@ -26,125 +26,95 @@ export default function AccountOverview({ onGroupSelect }: Props) {
   const positions = usePortfolioStore((s) => s.positions);
   const groups = usePortfolioStore((s) => s.groups);
   const estimates = useFundCacheStore((s) => s.estimates);
-
   const sortedGroups = [...groups].sort((a, b) => a.order - b.order);
 
   const groupStats: GroupStats[] = useMemo(() => {
     return sortedGroups.map((group) => {
-      const groupPositions = positions.filter((p) => p.groupId === group.id);
+      const gp = positions.filter((p) => p.groupId === group.id);
       let totalMarketValue = 0, totalCost = 0, todayChange = 0;
       let riseCount = 0, fallCount = 0, flatCount = 0;
-
-      for (const pos of groupPositions) {
-        const estimate = estimates[pos.fundCode];
-        const currentNav = getCurrentNav(estimate, pos.costNav);
-        const lastNav = estimate?.lastNav || pos.costNav;
-        totalMarketValue += pos.shares * currentNav;
+      for (const pos of gp) {
+        const est = estimates[pos.fundCode];
+        const nav = getCurrentNav(est, pos.costNav);
+        const last = est?.lastNav || pos.costNav;
+        totalMarketValue += pos.shares * nav;
         totalCost += pos.totalCost;
-        todayChange += pos.shares * (currentNav - lastNav);
-        const changeRate = getCurrentChangeRate(estimate);
-        if (changeRate > 0) riseCount++;
-        else if (changeRate < 0) fallCount++;
-        else flatCount++;
+        todayChange += pos.shares * (nav - last);
+        const cr = getCurrentChangeRate(est);
+        if (cr > 0) riseCount++; else if (cr < 0) fallCount++; else flatCount++;
       }
-
       const profit = totalMarketValue - totalCost;
       const profitRate = totalCost > 0 ? (profit / totalCost) * 100 : 0;
-      return { group, totalMarketValue, totalCost, profit, profitRate, todayChange, riseCount, fallCount, flatCount, totalCount: groupPositions.length };
+      return { group, totalMarketValue, totalCost, profit, profitRate, todayChange, riseCount, fallCount, flatCount, totalCount: gp.length };
     });
   }, [sortedGroups, positions, estimates]);
 
   const overall = useMemo(() => {
-    let totalMarketValue = 0, totalCost = 0, todayChange = 0;
-    for (const s of groupStats) {
-      totalMarketValue += s.totalMarketValue;
-      totalCost += s.totalCost;
-      todayChange += s.todayChange;
-    }
-    const profit = totalMarketValue - totalCost;
-    const profitRate = totalCost > 0 ? (profit / totalCost) * 100 : 0;
-    return { totalMarketValue, profit, profitRate, todayChange };
+    let mv = 0, cost = 0, today = 0;
+    for (const s of groupStats) { mv += s.totalMarketValue; cost += s.totalCost; today += s.todayChange; }
+    const profit = mv - cost;
+    const rate = cost > 0 ? (profit / cost) * 100 : 0;
+    return { totalMarketValue: mv, profit, profitRate: rate, todayChange: today };
   }, [groupStats]);
 
   return (
-    <div className="pb-2">
-      {/* Overall summary */}
-      <div className="mx-4 mt-4 rounded-2xl bg-white p-4">
-        <div className="flex items-end justify-between">
+    <div>
+      {/* Hero: total assets */}
+      <div className="px-6 pt-8 pb-6 bg-surface">
+        <p className="text-[11px] text-ink-tertiary tracking-label uppercase mb-2">总资产</p>
+        <p className="text-[40px] font-light text-ink leading-none tracking-tight tabular-nums">
+          {formatCurrency(overall.totalMarketValue)}
+        </p>
+        <div className="flex items-center gap-4 mt-3">
           <div>
-            <p className="text-[13px] text-ios-gray mb-2">总资产（元）</p>
-            <p className="text-[34px] font-semibold text-ios-label leading-none tracking-tight">
-              {formatCurrency(overall.totalMarketValue)}
-            </p>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-[13px] text-ios-gray">累计收益</span>
-              <span className={`text-[15px] font-medium ${getPriceColor(overall.profit)}`}>
-                {overall.profit >= 0 ? '+' : ''}{formatCurrency(overall.profit)}
-              </span>
-              <span className={`text-[13px] ${getPriceColor(overall.profitRate)}`}>
-                {formatPercent(overall.profitRate)}
-              </span>
-            </div>
+            <span className="text-[11px] text-ink-tertiary tracking-label uppercase">收益</span>
+            <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(overall.profit)}`}>
+              {overall.profit >= 0 ? '+' : ''}{formatCurrency(overall.profit)}
+            </span>
           </div>
-          <div className="text-right">
-            <p className="text-[13px] text-ios-gray mb-2">今日</p>
-            <p className={`text-[22px] font-semibold leading-none ${getPriceColor(overall.todayChange)}`}>
-              {overall.todayChange >= 0 ? '+' : ''}¥{formatCurrency(overall.todayChange)}
-            </p>
+          <div>
+            <span className="text-[11px] text-ink-tertiary tracking-label uppercase">今日</span>
+            <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(overall.todayChange)}`}>
+              {overall.todayChange >= 0 ? '+' : ''}{formatCurrency(overall.todayChange)}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Per-group list */}
-      <div className="mx-4 mt-4 rounded-2xl bg-white overflow-hidden">
-        {groupStats.map(({ group, totalMarketValue, profit, profitRate, todayChange, riseCount, fallCount, totalCount }, index) => (
+      {/* Group list */}
+      <div className="mt-2">
+        {groupStats.map(({ group, totalMarketValue, profit, todayChange, totalCount }, index) => (
           <button
             key={group.id}
             onClick={() => onGroupSelect(group.id)}
-            className={`w-full px-4 py-3 text-left active:bg-ios-fill/30 transition-colors flex items-center ${
-              index > 0 ? 'border-t border-ios-separator/20' : ''
-            }`}
+            className="w-full flex items-center px-6 py-4 bg-surface active:bg-surface-bg transition-colors"
+            style={{ marginTop: index > 0 ? 1 : 0 }}
           >
-            <div className="mr-3 flex-shrink-0">
-              <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={40} />
+            <div className="mr-4 flex-shrink-0 opacity-60">
+              <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={32} />
             </div>
 
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-[17px] font-medium text-ios-label">{group.name}</span>
-                <span className="text-[13px] text-ios-gray">{totalCount} 只</span>
-              </div>
-              <div className="flex items-center gap-3 mt-1">
-                <span className="text-[13px] text-ios-gray">¥{formatCurrency(totalMarketValue)}</span>
-                <span className={`text-[13px] ${getPriceColor(profit)}`}>
-                  {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
-                </span>
-                {(riseCount > 0 || fallCount > 0) && (
-                  <span className="text-[11px]">
-                    {riseCount > 0 && <span className="text-rise">{riseCount}↑</span>}
-                    {riseCount > 0 && fallCount > 0 && ' '}
-                    {fallCount > 0 && <span className="text-fall">{fallCount}↓</span>}
-                  </span>
-                )}
-              </div>
+            <div className="flex-1 min-w-0 text-left">
+              <p className="text-[15px] text-ink">{group.name}</p>
+              <p className="text-[11px] text-ink-tertiary mt-0.5 tracking-label">
+                {totalCount} 只 · ¥{formatCurrency(totalMarketValue)}
+              </p>
             </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <span className={`text-[17px] font-medium ${getPriceColor(todayChange)}`}>
-                {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
-              </span>
-              <svg className="w-4 h-4 text-ios-gray/40" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
+            <div className="text-right flex-shrink-0">
+              <p className={`text-[15px] font-medium tabular-nums ${getPriceColor(todayChange)}`}>
+                {todayChange >= 0 ? '+' : ''}{formatCurrency(todayChange)}
+              </p>
+              <p className={`text-[11px] mt-0.5 tabular-nums ${getPriceColor(profit)}`}>
+                {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
+              </p>
             </div>
+
+            <svg className="w-4 h-4 text-ink-faint ml-3 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
           </button>
         ))}
-
-        {groupStats.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-[15px] text-ios-gray">还没有账户，点击右上角管理创建</p>
-          </div>
-        )}
       </div>
     </div>
   );
