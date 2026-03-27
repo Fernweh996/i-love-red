@@ -82,7 +82,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
         <div className="flex-1 overflow-x-auto scrollbar-hide" ref={scrollRef} onScroll={onScroll}>
           <div className="flex items-center min-w-max">
             <div className="w-[96px] flex-shrink-0 text-center py-3">
-              <p className={`text-[15px] font-semibold tabular-nums ${getPriceColor(todayChangeRate)}`}>
+              <p className={`text-[15px] font-medium tabular-nums ${getPriceColor(todayChangeRate)}`}>
                 {formatPercent(todayChangeRate)}
               </p>
               <p className={`text-[11px] mt-0.5 tabular-nums ${getPriceColor(todayChange)}`}>
@@ -90,7 +90,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               </p>
             </div>
             <div className="w-[96px] flex-shrink-0 text-center py-3">
-              <p className={`text-[15px] font-semibold tabular-nums ${getPriceColor(profit)}`}>
+              <p className={`text-[15px] font-medium tabular-nums ${getPriceColor(profit)}`}>
                 {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
               </p>
               <p className={`text-[11px] mt-0.5 tabular-nums ${getPriceColor(profitRate)}`}>

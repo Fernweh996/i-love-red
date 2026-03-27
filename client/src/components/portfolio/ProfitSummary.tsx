@@ -41,7 +41,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
           </button>
         )}
       </div>
-      <p className="text-[40px] font-light text-ink leading-none tracking-tight tabular-nums">
+      <p className="text-[32px] font-medium text-ink leading-none tracking-tight tabular-nums">
         {formatCurrency(totalMarketValue)}
       </p>
       <div className="flex items-center gap-4 mt-3">

@@ -33,7 +33,7 @@ export default function TabBar() {
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d={tab.icon} />
               </svg>
-              <span className={`text-[10px] mt-1 tracking-label uppercase ${isActive ? 'font-semibold' : 'font-normal'}`}>
+              <span className={`text-[10px] mt-1 tracking-label uppercase ${isActive ? 'font-medium' : 'font-normal'}`}>
                 {tab.label}
               </span>
             </button>
