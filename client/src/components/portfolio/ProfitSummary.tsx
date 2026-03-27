@@ -27,7 +27,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
   return (
     <div className="px-6 pt-8 pb-6 bg-surface">
       <div className="flex items-center gap-2 mb-2">
-        <p className="text-[14px] text-ink-tertiary tracking-label uppercase">
+        <p className="text-[14px] text-ink-faint tracking-label uppercase">
           {groupLabel || '资产'}
         </p>
         {onRefresh && (
@@ -46,7 +46,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
       </p>
       <div className="flex items-center gap-4 mt-3">
         <div>
-          <span className="text-[14px] text-ink-tertiary tracking-label uppercase">收益</span>
+          <span className="text-[14px] text-ink-faint tracking-label uppercase">收益</span>
           <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(totalProfit)}`}>
             {totalProfit >= 0 ? '+' : ''}{formatCurrency(totalProfit)}
           </span>
@@ -55,7 +55,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
           </span>
         </div>
         <div>
-          <span className="text-[14px] text-ink-tertiary tracking-label uppercase">今日</span>
+          <span className="text-[14px] text-ink-faint tracking-label uppercase">今日</span>
           <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(todayChange)}`}>
             {todayChange >= 0 ? '+' : ''}{formatCurrency(todayChange)}
           </span>

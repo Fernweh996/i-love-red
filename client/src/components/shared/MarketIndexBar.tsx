@@ -29,7 +29,7 @@ export default function MarketIndexBar() {
     <div className="flex items-center justify-between px-6 py-2 bg-surface">
       {indices.map((idx) => (
         <div key={idx.code} className="text-center flex items-center gap-1.5">
-          <span className="text-[14px] text-ink-tertiary tracking-label uppercase">
+          <span className="text-[14px] text-ink-faint tracking-label uppercase">
             {INDEX_NAMES[idx.code] || idx.name}
           </span>
           <span className={`text-[15px] font-medium tabular-nums ${getPriceColor(idx.changeRate)}`}>
