@@ -34,7 +34,7 @@ function TradingStatus({ hasConfirmedNav }: { hasConfirmedNav: boolean }) {
   return (
     <div className="flex items-center justify-center gap-1.5 py-2 mx-3 rounded-xl bg-white/50">
       <span className={`w-1.5 h-1.5 rounded-full ${dotClass}`} />
-      <span className="text-[10px] text-gray-400">{label}</span>
+      <span className="text-[14px] text-gray-500">{label}</span>
     </div>
   );
 }
@@ -175,7 +175,7 @@ export default function Dashboard() {
         {/* Column Header */}
         <div className="flex items-center px-4 mx-3 mt-2 mb-1 min-h-[32px]">
           <div className="w-[140px] flex-shrink-0 pr-3">
-            <span className="text-[14px] text-gray-300">基金名称</span>
+            <span className="text-[14px] text-gray-500">基金名称</span>
           </div>
           <div className="flex-1 overflow-x-auto scrollbar-hide" ref={registerScrollRef(0)} onScroll={handleSyncScroll(0)}>
             <div className="flex items-center min-w-max">
@@ -183,24 +183,24 @@ export default function Dashboard() {
                 className="w-[100px] flex-shrink-0 text-center flex items-center justify-center"
                 onClick={() => handleSort('todayChange')}
               >
-                <span className="text-[14px] text-gray-300">当日涨跌</span>
+                <span className="text-[14px] text-gray-500">当日涨跌</span>
                 <SortIcon active={sortKey === 'todayChange'} asc={sortAsc} />
               </button>
               <button
                 className="w-[100px] flex-shrink-0 text-center flex items-center justify-center"
                 onClick={() => handleSort('profit')}
               >
-                <span className="text-[14px] text-gray-300">持有收益</span>
+                <span className="text-[14px] text-gray-500">持有收益</span>
                 <SortIcon active={sortKey === 'profit'} asc={sortAsc} />
               </button>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-gray-300">最新净值</span>
+                <span className="text-[14px] text-gray-500">最新净值</span>
               </div>
               <div className="w-[90px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-gray-300">持有份额</span>
+                <span className="text-[14px] text-gray-500">持有份额</span>
               </div>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-gray-300">成本净值</span>
+                <span className="text-[14px] text-gray-500">成本净值</span>
               </div>
             </div>
           </div>
