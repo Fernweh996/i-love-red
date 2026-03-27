@@ -6,7 +6,7 @@
     "client"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "scripts": {
     "start": "node server/dist/index.js",
