@@ -25,20 +25,7 @@ export default function ImportPage() {
   const [uploadedFile, setUploadedFile] = useState<{ filename: string; absolutePath: string; preview: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
-  // Auto-load imported funds from JSON file on mount
-  useEffect(() => {
-    (async () => {
-      try {
-        const result = await loadImportedFunds();
-        if (result.length > 0) {
-          setFunds(result);
-          setStage('result');
-        }
-      } catch {
-        // No results yet, stay on empty stage
-      }
-    })();
-  }, []);
+  // No auto-load on mount — always start fresh when entering the page
 
   // Handle image selected from ImageUploader
   const handleImage = useCallback(async (base64: string) => {
