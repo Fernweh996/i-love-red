@@ -3,6 +3,7 @@ import { usePortfolioStore } from '@/stores/portfolio';
 import { useFundCacheStore } from '@/stores/fund-cache';
 import { formatCurrency, formatPercent, getPriceColor, getCurrentNav, getCurrentChangeRate } from '@/lib/utils';
 import type { Group } from '@/types';
+import BrandIcon from '@/components/shared/BrandIcon';
 
 interface GroupStats {
   group: Group;
@@ -94,22 +95,22 @@ export default function AccountOverview({ onGroupSelect }: Props) {
       <div className="mx-3 mt-3 rounded-2xl bg-white shadow-sm p-5">
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-[11px] text-gray-400 mb-1.5">总资产</p>
+            <p className="text-[13px] text-gray-400 mb-1.5">总资产</p>
             <p className="text-[28px] font-light text-gray-800 leading-none tracking-tight">
               {formatCurrency(overall.totalMarketValue)}
             </p>
             <div className="flex items-center gap-2 mt-2">
-              <span className="text-[11px] text-gray-400">累计收益</span>
-              <span className={`text-[12px] font-medium ${getPriceColor(overall.profit)}`}>
+              <span className="text-[13px] text-gray-400">累计收益</span>
+              <span className={`text-[14px] font-medium ${getPriceColor(overall.profit)}`}>
                 {overall.profit >= 0 ? '+' : ''}{formatCurrency(overall.profit)}
               </span>
-              <span className={`text-[11px] ${getPriceColor(overall.profitRate)}`}>
+              <span className={`text-[13px] ${getPriceColor(overall.profitRate)}`}>
                 {formatPercent(overall.profitRate)}
               </span>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-[11px] text-gray-400 mb-1.5">当日涨跌</p>
+            <p className="text-[13px] text-gray-400 mb-1.5">当日涨跌</p>
             <p className={`text-xl font-light leading-none ${getPriceColor(overall.todayChange)}`}>
               {overall.todayChange >= 0 ? '+' : ''}¥{formatCurrency(overall.todayChange)}
             </p>
@@ -127,10 +128,10 @@ export default function AccountOverview({ onGroupSelect }: Props) {
           >
             {/* Header: icon + name + count */}
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-lg">{group.icon}</span>
-                <span className="text-[15px] font-normal text-gray-700">{group.name}</span>
-                <span className="text-[11px] text-gray-300">{totalCount} 只</span>
+              <div className="flex items-center gap-2.5">
+                <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={28} />
+                <span className="text-[16px] font-normal text-gray-700">{group.name}</span>
+                <span className="text-[12px] text-gray-300">{totalCount} 只</span>
               </div>
               <svg className="w-4 h-4 text-gray-200" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -140,35 +141,35 @@ export default function AccountOverview({ onGroupSelect }: Props) {
             {/* Stats grid: 2x2 */}
             <div className="grid grid-cols-2 gap-y-3 gap-x-4">
               <div>
-                <p className="text-[10px] text-gray-400">账户资产</p>
-                <p className="text-[15px] font-light text-gray-800">{formatCurrency(totalMarketValue)}</p>
+                <p className="text-[12px] text-gray-400">账户资产</p>
+                <p className="text-[16px] font-light text-gray-800">{formatCurrency(totalMarketValue)}</p>
               </div>
               <div>
-                <p className="text-[10px] text-gray-400">当日收益</p>
-                <p className={`text-[15px] font-light ${getPriceColor(todayChange)}`}>
+                <p className="text-[12px] text-gray-400">当日收益</p>
+                <p className={`text-[16px] font-light ${getPriceColor(todayChange)}`}>
                   {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
                 </p>
               </div>
               <div>
-                <p className="text-[10px] text-gray-400">持有收益</p>
-                <p className={`text-[15px] font-light ${getPriceColor(profit)}`}>
+                <p className="text-[12px] text-gray-400">持有收益</p>
+                <p className={`text-[16px] font-light ${getPriceColor(profit)}`}>
                   {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
-                  <span className={`text-[11px] ml-1 ${getPriceColor(profitRate)}`}>
+                  <span className={`text-[12px] ml-1 ${getPriceColor(profitRate)}`}>
                     {formatPercent(profitRate)}
                   </span>
                 </p>
               </div>
               <div>
-                <p className="text-[10px] text-gray-400">涨跌分布</p>
+                <p className="text-[12px] text-gray-400">涨跌分布</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   {riseCount > 0 && (
-                    <span className="text-[12px] font-medium text-rise">{riseCount} 涨</span>
+                    <span className="text-[13px] font-medium text-rise">{riseCount} 涨</span>
                   )}
                   {fallCount > 0 && (
-                    <span className="text-[12px] font-medium text-fall">{fallCount} 跌</span>
+                    <span className="text-[13px] font-medium text-fall">{fallCount} 跌</span>
                   )}
                   {riseCount === 0 && fallCount === 0 && (
-                    <span className="text-[12px] text-gray-300">--</span>
+                    <span className="text-[13px] text-gray-300">--</span>
                   )}
                 </div>
               </div>

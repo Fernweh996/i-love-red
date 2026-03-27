@@ -18,7 +18,7 @@ export default function TabBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50 safe-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-100/50 z-50 safe-bottom">
       <div className="max-w-lg mx-auto flex">
         {tabs.map((tab) => {
           const isActive = location.pathname.startsWith(tab.path);
@@ -27,13 +27,13 @@ export default function TabBar() {
               key={tab.path}
               onClick={() => navigate(tab.path)}
               className={`flex-1 flex flex-col items-center pt-2 pb-1.5 transition-colors ${
-                isActive ? 'text-blue-600' : 'text-gray-400'
+                isActive ? 'text-morandi-blue' : 'text-gray-400'
               }`}
             >
-              <svg className="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-6 h-6 mb-0.5" viewBox="0 0 24 24" fill="currentColor">
                 <path d={tab.icon} />
               </svg>
-              <span className={`text-[10px] ${isActive ? 'font-medium' : ''}`}>{tab.label}</span>
+              <span className={`text-[12px] ${isActive ? 'font-medium' : ''}`}>{tab.label}</span>
             </button>
           );
         })}

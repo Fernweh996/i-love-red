@@ -29,7 +29,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
           {/* "账户汇总" tab */}
           <button
             onClick={() => onGroupChange('all')}
-            className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-[13px] transition-all ${
+            className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-[15px] transition-all ${
               activeGroupId === 'all'
                 ? 'bg-morandi-blue/15 text-morandi-blue font-medium shadow-sm'
                 : 'bg-white/60 text-gray-400'
@@ -45,14 +45,14 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
               <button
                 key={group.id}
                 onClick={() => onGroupChange(group.id)}
-                className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-[13px] transition-all ${
+                className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-[15px] transition-all ${
                   activeGroupId === group.id
                     ? 'bg-morandi-blue/15 text-morandi-blue font-medium shadow-sm'
                     : 'bg-white/60 text-gray-400'
                 }`}
               >
                 {group.icon} {group.name}
-                <span className="ml-0.5 text-[10px] opacity-60">({count})</span>
+                <span className="ml-0.5 text-[12px] opacity-60">({count})</span>
               </button>
             );
           })}

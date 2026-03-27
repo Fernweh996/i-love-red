@@ -93,7 +93,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
               </span>
             )}
           </div>
-          <p className="text-[11px] text-gray-300 mt-1">
+          <p className="text-[12px] text-gray-300 mt-1">
             ¥{formatCurrency(marketValue)}
           </p>
         </div>
@@ -106,7 +106,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
               <p className={`text-[15px] font-medium ${getPriceColor(todayChangeRate)}`}>
                 {formatPercent(todayChangeRate)}
               </p>
-              <p className={`text-[11px] mt-0.5 ${getPriceColor(todayChange)}`}>
+              <p className={`text-[12px] mt-0.5 ${getPriceColor(todayChange)}`}>
                 {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
               </p>
             </div>
@@ -116,7 +116,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
               <p className={`text-[15px] font-medium ${getPriceColor(profit)}`}>
                 {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
               </p>
-              <p className={`text-[11px] mt-0.5 ${getPriceColor(profitRate)}`}>
+              <p className={`text-[12px] mt-0.5 ${getPriceColor(profitRate)}`}>
                 {formatPercent(profitRate)}
               </p>
             </div>
@@ -126,7 +126,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
               <p className="text-[14px] font-normal text-gray-600">
                 {currentNav.toFixed(4)}
               </p>
-              <p className="text-[10px] text-gray-300 mt-0.5 flex items-center justify-center gap-0.5">
+              <p className="text-[11px] text-gray-300 mt-0.5 flex items-center justify-center gap-0.5">
                 <NavSourceBadge source={pnl.estimate?.navSource} />
                 净值
               </p>
@@ -137,7 +137,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
               <p className="text-[14px] font-normal text-gray-600">
                 {position.shares.toFixed(2)}
               </p>
-              <p className="text-[10px] text-gray-300 mt-0.5">份额</p>
+              <p className="text-[11px] text-gray-300 mt-0.5">份额</p>
             </div>
 
             {/* 成本净值 */}
@@ -145,7 +145,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
               <p className="text-[14px] font-normal text-gray-600">
                 {position.costNav.toFixed(4)}
               </p>
-              <p className="text-[10px] text-gray-300 mt-0.5">成本</p>
+              <p className="text-[11px] text-gray-300 mt-0.5">成本</p>
             </div>
           </div>
         </div>
