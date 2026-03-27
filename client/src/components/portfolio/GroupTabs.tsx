@@ -48,7 +48,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
               >
                 <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={16} />
                 <span>{group.name}</span>
-                <span className="text-[11px] text-ink-faint">{count}</span>
+                <span className="text-[12px] text-ink-faint">{count}</span>
               </button>
             );
           })}
