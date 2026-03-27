@@ -25,10 +25,10 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
   };
 
   return (
-    <div className="bg-white px-4 pt-5 pb-4">
+    <div className="mx-3 mt-3 rounded-2xl bg-white shadow-sm p-5">
       <div className="flex items-end justify-between">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1.5">
             <p className="text-[11px] text-gray-400">{groupLabel || '账户资产'}</p>
             {onRefresh && (
               <button
@@ -41,10 +41,10 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
               </button>
             )}
           </div>
-          <p className="text-[28px] font-bold text-gray-900 leading-none tracking-tight">
+          <p className="text-[28px] font-light text-gray-800 leading-none tracking-tight">
             {formatCurrency(totalMarketValue)}
           </p>
-          <div className="flex items-center gap-2 mt-1.5">
+          <div className="flex items-center gap-2 mt-2">
             <span className="text-[11px] text-gray-400">累计收益</span>
             <span className={`text-[12px] font-medium ${getPriceColor(totalProfit)}`}>
               {totalProfit >= 0 ? '+' : ''}{formatCurrency(totalProfit)}
@@ -55,8 +55,8 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
           </div>
         </div>
         <div className="text-right">
-          <p className="text-[11px] text-gray-400 mb-1">当日涨跌</p>
-          <p className={`text-xl font-bold leading-none ${getPriceColor(todayChange)}`}>
+          <p className="text-[11px] text-gray-400 mb-1.5">当日涨跌</p>
+          <p className={`text-xl font-light leading-none ${getPriceColor(todayChange)}`}>
             {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
           </p>
         </div>

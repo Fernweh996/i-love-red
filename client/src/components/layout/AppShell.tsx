@@ -43,7 +43,7 @@ export default function AppShell({ children }: Props) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5]">
+    <div className="min-h-screen bg-morandi-bg">
       <main className={`max-w-lg mx-auto ${hideChrome ? '' : 'pb-20'}`}>
         {/* Top search bar (only on tab pages) */}
         {!hideChrome && (

@@ -21,18 +21,18 @@ function TradingStatus({ hasConfirmedNav }: { hasConfirmedNav: boolean }) {
   let label: string;
 
   if (trading) {
-    dotClass = 'bg-green-500 animate-pulse';
+    dotClass = 'bg-morandi-green animate-pulse';
     label = '交易中 · 估值实时刷新';
   } else if (hasConfirmedNav) {
-    dotClass = 'bg-amber-500';
+    dotClass = 'bg-morandi-pink';
     label = '已收盘 · 已更新今日净值';
   } else {
-    dotClass = 'bg-gray-300';
+    dotClass = 'bg-gray-200';
     label = '已收盘 · 等待净值公布';
   }
 
   return (
-    <div className="flex items-center justify-center gap-1.5 py-1.5 bg-white border-b border-gray-50">
+    <div className="flex items-center justify-center gap-1.5 py-2 mx-3 rounded-xl bg-white/50">
       <span className={`w-1.5 h-1.5 rounded-full ${dotClass}`} />
       <span className="text-[10px] text-gray-400">{label}</span>
     </div>
@@ -113,8 +113,8 @@ export default function Dashboard() {
 
   const SortIcon = ({ active, asc }: { active: boolean; asc: boolean }) => (
     <span className={`inline-flex flex-col ml-0.5 leading-none`}>
-      <span className={`text-[8px] leading-none ${active && !asc ? 'text-blue-500' : 'text-gray-300'}`}>▲</span>
-      <span className={`text-[8px] leading-none ${active && asc ? 'text-blue-500' : 'text-gray-300'}`}>▼</span>
+      <span className={`text-[8px] leading-none ${active && !asc ? 'text-morandi-blue' : 'text-gray-200'}`}>▲</span>
+      <span className={`text-[8px] leading-none ${active && asc ? 'text-morandi-blue' : 'text-gray-200'}`}>▼</span>
     </span>
   );
 
@@ -167,12 +167,15 @@ export default function Dashboard() {
           onGroupChange={setActiveGroupId}
         />
         <ProfitSummary pnlList={pnlList} groupLabel={groupLabel} />
-        <TradingStatus hasConfirmedNav={pnlList.some((p) => p.estimate?.navSource === 'confirmed')} />
+
+        <div className="mt-2">
+          <TradingStatus hasConfirmedNav={pnlList.some((p) => p.estimate?.navSource === 'confirmed')} />
+        </div>
 
         {/* Column Header */}
-        <div className="flex items-center px-4 bg-white border-b border-gray-50 min-h-[36px]">
+        <div className="flex items-center px-4 mx-3 mt-2 mb-1 min-h-[32px]">
           <div className="w-[140px] flex-shrink-0 pr-3">
-            <span className="text-[11px] text-gray-400">基金名称</span>
+            <span className="text-[11px] text-gray-300">基金名称</span>
           </div>
           <div className="flex-1 overflow-x-auto scrollbar-hide" ref={registerScrollRef(0)} onScroll={handleSyncScroll(0)}>
             <div className="flex items-center min-w-max">
@@ -180,24 +183,24 @@ export default function Dashboard() {
                 className="w-[100px] flex-shrink-0 text-center flex items-center justify-center"
                 onClick={() => handleSort('todayChange')}
               >
-                <span className="text-[11px] text-gray-400">当日涨跌</span>
+                <span className="text-[11px] text-gray-300">当日涨跌</span>
                 <SortIcon active={sortKey === 'todayChange'} asc={sortAsc} />
               </button>
               <button
                 className="w-[100px] flex-shrink-0 text-center flex items-center justify-center"
                 onClick={() => handleSort('profit')}
               >
-                <span className="text-[11px] text-gray-400">持有收益</span>
+                <span className="text-[11px] text-gray-300">持有收益</span>
                 <SortIcon active={sortKey === 'profit'} asc={sortAsc} />
               </button>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[11px] text-gray-400">最新净值</span>
+                <span className="text-[11px] text-gray-300">最新净值</span>
               </div>
               <div className="w-[90px] flex-shrink-0 text-center">
-                <span className="text-[11px] text-gray-400">持有份额</span>
+                <span className="text-[11px] text-gray-300">持有份额</span>
               </div>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[11px] text-gray-400">成本净值</span>
+                <span className="text-[11px] text-gray-300">成本净值</span>
               </div>
             </div>
           </div>
@@ -211,7 +214,7 @@ export default function Dashboard() {
             description="点击下方添加持仓或截图导入"
           />
         ) : (
-          <div key={activeGroupId} className="divide-y divide-gray-50 animate-fade-in-up">
+          <div key={activeGroupId} className="px-3 space-y-2.5 animate-fade-in-up">
             {pnlList.map((pnl, index) => (
               <PositionCard
                 key={`${pnl.position.fundCode}-${pnl.position.groupId}`}
@@ -224,24 +227,24 @@ export default function Dashboard() {
         )}
 
         {/* Bottom actions */}
-        <div className="flex items-center justify-between px-4 py-3 bg-white mt-px">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between px-3 py-3 mt-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('open-search'));
               }}
-              className="text-[13px] text-blue-500"
+              className="text-[13px] text-morandi-blue bg-morandi-blue/10 px-4 py-2 rounded-xl active:bg-morandi-blue/20 transition-colors"
             >
               + 添加持仓
             </button>
             <button
               onClick={() => navigate(`/import?group=${importGroupId}`)}
-              className="text-[13px] text-blue-500"
+              className="text-[13px] text-morandi-pink bg-morandi-pink/10 px-4 py-2 rounded-xl active:bg-morandi-pink/20 transition-colors"
             >
               📷 截图导入
             </button>
           </div>
-          <span className="text-[10px] text-gray-300">← 左滑可删除</span>
+          <span className="text-[10px] text-gray-200">← 左滑可删除</span>
         </div>
       </div>
     </PullToRefresh>

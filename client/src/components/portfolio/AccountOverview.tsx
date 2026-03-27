@@ -90,15 +90,15 @@ export default function AccountOverview({ onGroupSelect }: Props) {
 
   return (
     <div className="pb-2">
-      {/* Overall summary */}
-      <div className="bg-white px-4 pt-5 pb-4">
+      {/* Overall summary card */}
+      <div className="mx-3 mt-3 rounded-2xl bg-white shadow-sm p-5">
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-[11px] text-gray-400 mb-1">总资产</p>
-            <p className="text-[28px] font-bold text-gray-900 leading-none tracking-tight">
+            <p className="text-[11px] text-gray-400 mb-1.5">总资产</p>
+            <p className="text-[28px] font-light text-gray-800 leading-none tracking-tight">
               {formatCurrency(overall.totalMarketValue)}
             </p>
-            <div className="flex items-center gap-2 mt-1.5">
+            <div className="flex items-center gap-2 mt-2">
               <span className="text-[11px] text-gray-400">累计收益</span>
               <span className={`text-[12px] font-medium ${getPriceColor(overall.profit)}`}>
                 {overall.profit >= 0 ? '+' : ''}{formatCurrency(overall.profit)}
@@ -109,8 +109,8 @@ export default function AccountOverview({ onGroupSelect }: Props) {
             </div>
           </div>
           <div className="text-right">
-            <p className="text-[11px] text-gray-400 mb-1">当日涨跌</p>
-            <p className={`text-xl font-bold leading-none ${getPriceColor(overall.todayChange)}`}>
+            <p className="text-[11px] text-gray-400 mb-1.5">当日涨跌</p>
+            <p className={`text-xl font-light leading-none ${getPriceColor(overall.todayChange)}`}>
               {overall.todayChange >= 0 ? '+' : ''}¥{formatCurrency(overall.todayChange)}
             </p>
           </div>
@@ -123,35 +123,35 @@ export default function AccountOverview({ onGroupSelect }: Props) {
           <button
             key={group.id}
             onClick={() => onGroupSelect(group.id)}
-            className="w-full bg-white rounded-xl p-4 text-left active:bg-gray-50 transition-colors"
+            className="w-full bg-white rounded-2xl p-4 text-left shadow-sm active:shadow-none active:bg-gray-50/50 transition-all"
           >
             {/* Header: icon + name + count */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <span className="text-lg">{group.icon}</span>
-                <span className="text-[15px] font-medium text-gray-800">{group.name}</span>
-                <span className="text-[11px] text-gray-400">{totalCount} 只</span>
+                <span className="text-[15px] font-normal text-gray-700">{group.name}</span>
+                <span className="text-[11px] text-gray-300">{totalCount} 只</span>
               </div>
-              <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-gray-200" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </div>
 
             {/* Stats grid: 2x2 */}
-            <div className="grid grid-cols-2 gap-y-2.5 gap-x-4">
+            <div className="grid grid-cols-2 gap-y-3 gap-x-4">
               <div>
                 <p className="text-[10px] text-gray-400">账户资产</p>
-                <p className="text-[15px] font-semibold text-gray-900">{formatCurrency(totalMarketValue)}</p>
+                <p className="text-[15px] font-light text-gray-800">{formatCurrency(totalMarketValue)}</p>
               </div>
               <div>
                 <p className="text-[10px] text-gray-400">当日收益</p>
-                <p className={`text-[15px] font-semibold ${getPriceColor(todayChange)}`}>
+                <p className={`text-[15px] font-light ${getPriceColor(todayChange)}`}>
                   {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
                 </p>
               </div>
               <div>
                 <p className="text-[10px] text-gray-400">持有收益</p>
-                <p className={`text-[15px] font-semibold ${getPriceColor(profit)}`}>
+                <p className={`text-[15px] font-light ${getPriceColor(profit)}`}>
                   {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
                   <span className={`text-[11px] ml-1 ${getPriceColor(profitRate)}`}>
                     {formatPercent(profitRate)}
@@ -168,7 +168,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
                     <span className="text-[12px] font-medium text-fall">{fallCount} 跌</span>
                   )}
                   {riseCount === 0 && fallCount === 0 && (
-                    <span className="text-[12px] text-gray-400">--</span>
+                    <span className="text-[12px] text-gray-300">--</span>
                   )}
                 </div>
               </div>
@@ -176,16 +176,16 @@ export default function AccountOverview({ onGroupSelect }: Props) {
 
             {/* Mini bar chart: rise vs fall ratio */}
             {totalCount > 0 && (
-              <div className="mt-3 flex h-1.5 rounded-full overflow-hidden bg-gray-100">
+              <div className="mt-3 flex h-1 rounded-full overflow-hidden bg-gray-50">
                 {riseCount > 0 && (
                   <div
-                    className="bg-rise/70 transition-all"
+                    className="bg-rise/50 transition-all"
                     style={{ width: `${(riseCount / totalCount) * 100}%` }}
                   />
                 )}
                 {fallCount > 0 && (
                   <div
-                    className="bg-fall/70 transition-all"
+                    className="bg-fall/50 transition-all"
                     style={{ width: `${(fallCount / totalCount) * 100}%` }}
                   />
                 )}
@@ -196,7 +196,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
 
         {groupStats.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-[13px] text-gray-400">还没有账户，点击右上角 ⚙ 创建</p>
+            <p className="text-[13px] text-gray-300">还没有账户，点击右上角 ⚙ 创建</p>
           </div>
         )}
       </div>

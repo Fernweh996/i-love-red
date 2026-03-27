@@ -21,25 +21,21 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
     positions.filter((p) => p.groupId === groupId).length;
 
   const getCount = getCountProp || defaultGetCount;
-  const total = totalCount ?? positions.length;
 
   return (
-    <div className="flex items-center bg-white border-b border-gray-50">
+    <div className="flex items-center bg-morandi-bg pt-2 pb-1">
       <div className="flex-1 overflow-x-auto scrollbar-hide">
-        <div className="flex items-center min-w-max px-2">
-          {/* "账户汇总" tab — 常驻 */}
+        <div className="flex items-center min-w-max px-3 gap-2">
+          {/* "账户汇总" tab */}
           <button
             onClick={() => onGroupChange('all')}
-            className={`flex-shrink-0 px-3 py-2.5 text-[13px] relative transition-colors ${
+            className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-[13px] transition-all ${
               activeGroupId === 'all'
-                ? 'text-blue-500 font-medium'
-                : 'text-gray-400'
+                ? 'bg-morandi-blue/15 text-morandi-blue font-medium shadow-sm'
+                : 'bg-white/60 text-gray-400'
             }`}
           >
             账户汇总
-            {activeGroupId === 'all' && (
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-blue-500 rounded-full" />
-            )}
           </button>
 
           {/* Group tabs */}
@@ -49,27 +45,24 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
               <button
                 key={group.id}
                 onClick={() => onGroupChange(group.id)}
-                className={`flex-shrink-0 px-3 py-2.5 text-[13px] relative transition-colors ${
+                className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-[13px] transition-all ${
                   activeGroupId === group.id
-                    ? 'text-blue-500 font-medium'
-                    : 'text-gray-400'
+                    ? 'bg-morandi-blue/15 text-morandi-blue font-medium shadow-sm'
+                    : 'bg-white/60 text-gray-400'
                 }`}
               >
                 {group.icon} {group.name}
-                <span className="ml-0.5 text-[10px]">({count})</span>
-                {activeGroupId === group.id && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-blue-500 rounded-full" />
-                )}
+                <span className="ml-0.5 text-[10px] opacity-60">({count})</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Fixed gear icon — navigates to /groups page */}
+      {/* Fixed gear icon */}
       <button
         onClick={() => navigate('/groups')}
-        className="flex-shrink-0 px-3 py-2.5 text-gray-400 border-l border-gray-50 text-[14px]"
+        className="flex-shrink-0 px-3 py-2 text-gray-300 text-[14px] hover:text-gray-500 transition-colors"
       >
         ⚙
       </button>

@@ -38,7 +38,6 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
 
   const onTouchEnd = () => {
     setSwiping(false);
-    // Snap to open or closed
     setOffsetX(offsetX < -DELETE_THRESHOLD / 2 ? -DELETE_THRESHOLD : 0);
   };
 
@@ -56,9 +55,9 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
     : '';
 
   return (
-    <div className="relative overflow-hidden bg-white">
+    <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm">
       {/* Delete action (behind the card) */}
-      <div className="absolute right-0 top-0 bottom-0 w-[72px] flex items-center justify-center bg-red-500">
+      <div className="absolute right-0 top-0 bottom-0 w-[72px] flex items-center justify-center bg-morandi-pink rounded-r-2xl">
         <button onClick={handleDelete} className="text-white text-xs font-medium w-full h-full">
           删除
         </button>
@@ -66,7 +65,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
 
       {/* Card body — slides left on swipe */}
       <div
-        className="relative bg-white flex items-center min-h-[68px] px-4 cursor-pointer active:bg-gray-50 transition-transform"
+        className="relative bg-white rounded-2xl flex items-center min-h-[68px] px-4 cursor-pointer active:bg-gray-50/50 transition-transform"
         style={{
           transform: `translateX(${offsetX}px)`,
           transition: swiping ? 'none' : 'transform 0.2s ease-out',
@@ -85,16 +84,16 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
         {/* Left: fund name + market value */}
         <div className="w-[140px] flex-shrink-0 pr-3 py-3">
           <div className="flex items-center gap-1.5">
-            <p className="text-[15px] font-medium text-gray-900 leading-tight truncate">
+            <p className="text-[14px] font-normal text-gray-700 leading-tight truncate">
               {position.fundName}
             </p>
             {typeLabel && (
-              <span className="flex-shrink-0 text-[9px] text-blue-500 bg-blue-50 px-1 py-[1px] rounded">
+              <span className="flex-shrink-0 text-[9px] text-morandi-blue bg-morandi-blue/10 px-1.5 py-[1px] rounded-md">
                 {typeLabel}
               </span>
             )}
           </div>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-[11px] text-gray-300 mt-1">
             ¥{formatCurrency(marketValue)}
           </p>
         </div>
@@ -104,7 +103,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
           <div className="flex items-center min-w-max">
             {/* 当日涨跌（幅度 + 金额） */}
             <div className="w-[100px] flex-shrink-0 text-center py-3">
-              <p className={`text-[15px] font-bold ${getPriceColor(todayChangeRate)}`}>
+              <p className={`text-[15px] font-medium ${getPriceColor(todayChangeRate)}`}>
                 {formatPercent(todayChangeRate)}
               </p>
               <p className={`text-[11px] mt-0.5 ${getPriceColor(todayChange)}`}>
@@ -114,7 +113,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
 
             {/* 持有收益（金额 + 比例） */}
             <div className="w-[100px] flex-shrink-0 text-center py-3">
-              <p className={`text-[15px] font-bold ${getPriceColor(profit)}`}>
+              <p className={`text-[15px] font-medium ${getPriceColor(profit)}`}>
                 {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
               </p>
               <p className={`text-[11px] mt-0.5 ${getPriceColor(profitRate)}`}>
@@ -124,10 +123,10 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
 
             {/* 最新净值 */}
             <div className="w-[80px] flex-shrink-0 text-center py-3">
-              <p className="text-[15px] font-medium text-gray-800">
+              <p className="text-[14px] font-normal text-gray-600">
                 {currentNav.toFixed(4)}
               </p>
-              <p className="text-[11px] text-gray-400 mt-0.5 flex items-center justify-center gap-0.5">
+              <p className="text-[10px] text-gray-300 mt-0.5 flex items-center justify-center gap-0.5">
                 <NavSourceBadge source={pnl.estimate?.navSource} />
                 净值
               </p>
@@ -135,18 +134,18 @@ export default function PositionCard({ pnl, scrollRef, onScroll }: Props) {
 
             {/* 持有份额 */}
             <div className="w-[90px] flex-shrink-0 text-center py-3">
-              <p className="text-[15px] font-medium text-gray-800">
+              <p className="text-[14px] font-normal text-gray-600">
                 {position.shares.toFixed(2)}
               </p>
-              <p className="text-[11px] text-gray-400 mt-0.5">份额</p>
+              <p className="text-[10px] text-gray-300 mt-0.5">份额</p>
             </div>
 
             {/* 成本净值 */}
             <div className="w-[80px] flex-shrink-0 text-center py-3">
-              <p className="text-[15px] font-medium text-gray-800">
+              <p className="text-[14px] font-normal text-gray-600">
                 {position.costNav.toFixed(4)}
               </p>
-              <p className="text-[11px] text-gray-400 mt-0.5">成本</p>
+              <p className="text-[10px] text-gray-300 mt-0.5">成本</p>
             </div>
           </div>
         </div>
