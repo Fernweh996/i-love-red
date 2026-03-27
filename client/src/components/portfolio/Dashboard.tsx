@@ -21,20 +21,20 @@ function TradingStatus({ hasConfirmedNav }: { hasConfirmedNav: boolean }) {
   let label: string;
 
   if (trading) {
-    dotClass = 'bg-morandi-green animate-pulse';
+    dotClass = 'bg-green-500 animate-pulse';
     label = '交易中 · 估值实时刷新';
   } else if (hasConfirmedNav) {
-    dotClass = 'bg-morandi-pink';
+    dotClass = 'bg-orange-400';
     label = '已收盘 · 已更新今日净值';
   } else {
-    dotClass = 'bg-gray-200';
+    dotClass = 'bg-ios-gray';
     label = '已收盘 · 等待净值公布';
   }
 
   return (
-    <div className="flex items-center justify-center gap-1.5 py-2 mx-3 rounded-xl bg-white/50">
+    <div className="flex items-center justify-center gap-1.5 py-2 mx-4">
       <span className={`w-1.5 h-1.5 rounded-full ${dotClass}`} />
-      <span className="text-[14px] text-gray-500">{label}</span>
+      <span className="text-[14px] text-ios-gray">{label}</span>
     </div>
   );
 }
@@ -49,20 +49,17 @@ export default function Dashboard() {
   const [sortKey, setSortKey] = useState<SortKey>('todayChange');
   const [sortAsc, setSortAsc] = useState(false);
 
-  // Build group label for ProfitSummary
   const groupLabel = useMemo(() => {
     if (activeGroupId === 'all') return undefined;
     const group = groups.find((g) => g.id === activeGroupId);
     return group ? `${group.icon} ${group.name}资产` : undefined;
   }, [activeGroupId, groups]);
 
-  // Filter positions by active group
   const filteredPositions = useMemo(() => {
     if (activeGroupId === 'all') return positions;
     return positions.filter((p) => p.groupId === activeGroupId);
   }, [positions, activeGroupId]);
 
-  // Calculate P&L for each position
   const pnlList: PositionPnL[] = useMemo(() => {
     const list = filteredPositions.map((pos) => {
       const estimate = estimates[pos.fundCode];
@@ -74,16 +71,7 @@ export default function Dashboard() {
       const todayChange = pos.shares * (currentNav - lastNav);
       const todayChangeRate = getCurrentChangeRate(estimate);
 
-      return {
-        position: pos,
-        currentNav,
-        marketValue,
-        profit,
-        profitRate,
-        todayChange,
-        todayChangeRate,
-        estimate,
-      };
+      return { position: pos, currentNav, marketValue, profit, profitRate, todayChange, todayChangeRate, estimate };
     });
 
     list.sort((a, b) => {
@@ -96,12 +84,8 @@ export default function Dashboard() {
   }, [filteredPositions, estimates, sortKey, sortAsc]);
 
   const handleSort = (key: SortKey) => {
-    if (sortKey === key) {
-      setSortAsc(!sortAsc);
-    } else {
-      setSortKey(key);
-      setSortAsc(false);
-    }
+    if (sortKey === key) setSortAsc(!sortAsc);
+    else { setSortKey(key); setSortAsc(false); }
   };
 
   const handleRefresh = async () => {
@@ -112,18 +96,16 @@ export default function Dashboard() {
   };
 
   const SortIcon = ({ active, asc }: { active: boolean; asc: boolean }) => (
-    <span className={`inline-flex flex-col ml-0.5 leading-none`}>
-      <span className={`text-[8px] leading-none ${active && !asc ? 'text-morandi-blue' : 'text-gray-200'}`}>▲</span>
-      <span className={`text-[8px] leading-none ${active && asc ? 'text-morandi-blue' : 'text-gray-200'}`}>▼</span>
+    <span className="inline-flex flex-col ml-0.5 leading-none">
+      <span className={`text-[8px] leading-none ${active && !asc ? 'text-ios-blue' : 'text-ios-fill'}`}>▲</span>
+      <span className={`text-[8px] leading-none ${active && asc ? 'text-ios-blue' : 'text-ios-fill'}`}>▼</span>
     </span>
   );
 
-  // Determine import target group
   const importGroupId = activeGroupId === 'all'
     ? (groups.length > 0 ? groups[0].id : 'licaitong')
     : activeGroupId;
 
-  // Synchronized horizontal scroll for header + all cards
   const scrollRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isScrollingRef = useRef(false);
 
@@ -143,29 +125,23 @@ export default function Dashboard() {
     isScrollingRef.current = false;
   }, []);
 
-  // ---- "账户汇总" view: show per-group overview cards ----
+  // Account summary view
   if (activeGroupId === 'all') {
     return (
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="pb-2">
-          <GroupTabs
-            activeGroupId={activeGroupId}
-            onGroupChange={setActiveGroupId}
-          />
+          <GroupTabs activeGroupId={activeGroupId} onGroupChange={setActiveGroupId} />
           <AccountOverview onGroupSelect={setActiveGroupId} />
         </div>
       </PullToRefresh>
     );
   }
 
-  // ---- Single group view: show fund list ----
+  // Single group view
   return (
     <PullToRefresh onRefresh={handleRefresh}>
       <div className="pb-2">
-        <GroupTabs
-          activeGroupId={activeGroupId}
-          onGroupChange={setActiveGroupId}
-        />
+        <GroupTabs activeGroupId={activeGroupId} onGroupChange={setActiveGroupId} />
         <ProfitSummary pnlList={pnlList} groupLabel={groupLabel} />
 
         <div className="mt-2">
@@ -173,34 +149,28 @@ export default function Dashboard() {
         </div>
 
         {/* Column Header */}
-        <div className="flex items-center px-4 mx-3 mt-2 mb-1 min-h-[32px]">
+        <div className="flex items-center px-4 mx-4 mt-1 mb-1 min-h-[32px]">
           <div className="w-[140px] flex-shrink-0 pr-3">
-            <span className="text-[14px] text-gray-500">基金名称</span>
+            <span className="text-[14px] text-ios-gray">基金名称</span>
           </div>
           <div className="flex-1 overflow-x-auto scrollbar-hide" ref={registerScrollRef(0)} onScroll={handleSyncScroll(0)}>
             <div className="flex items-center min-w-max">
-              <button
-                className="w-[100px] flex-shrink-0 text-center flex items-center justify-center"
-                onClick={() => handleSort('todayChange')}
-              >
-                <span className="text-[14px] text-gray-500">当日涨跌</span>
+              <button className="w-[100px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('todayChange')}>
+                <span className="text-[14px] text-ios-gray">当日涨跌</span>
                 <SortIcon active={sortKey === 'todayChange'} asc={sortAsc} />
               </button>
-              <button
-                className="w-[100px] flex-shrink-0 text-center flex items-center justify-center"
-                onClick={() => handleSort('profit')}
-              >
-                <span className="text-[14px] text-gray-500">持有收益</span>
+              <button className="w-[100px] flex-shrink-0 text-center flex items-center justify-center" onClick={() => handleSort('profit')}>
+                <span className="text-[14px] text-ios-gray">持有收益</span>
                 <SortIcon active={sortKey === 'profit'} asc={sortAsc} />
               </button>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-gray-500">最新净值</span>
+                <span className="text-[14px] text-ios-gray">最新净值</span>
               </div>
               <div className="w-[90px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-gray-500">持有份额</span>
+                <span className="text-[14px] text-ios-gray">持有份额</span>
               </div>
               <div className="w-[80px] flex-shrink-0 text-center">
-                <span className="text-[14px] text-gray-500">成本净值</span>
+                <span className="text-[14px] text-ios-gray">成本净值</span>
               </div>
             </div>
           </div>
@@ -208,43 +178,38 @@ export default function Dashboard() {
 
         {/* Position List */}
         {filteredPositions.length === 0 ? (
-          <EmptyState
-            icon="📭"
-            title="该账户暂无持仓"
-            description="点击下方添加持仓或截图导入"
-          />
+          <EmptyState icon="📭" title="该账户暂无持仓" description="点击下方添加持仓或截图导入" />
         ) : (
-          <div key={activeGroupId} className="px-3 space-y-2.5 animate-fade-in-up">
+          <div key={activeGroupId} className="mx-4 rounded-2xl bg-white overflow-hidden animate-fade-in-up">
             {pnlList.map((pnl, index) => (
               <PositionCard
                 key={`${pnl.position.fundCode}-${pnl.position.groupId}`}
                 pnl={pnl}
                 scrollRef={registerScrollRef(index + 1)}
                 onScroll={handleSyncScroll(index + 1)}
+                isLast={index === pnlList.length - 1}
               />
             ))}
           </div>
         )}
 
-        {/* Bottom actions */}
-        <div className="flex items-center justify-between px-3 py-3 mt-2">
+        {/* Bottom actions — iOS style */}
+        <div className="flex items-center justify-between px-4 py-3 mt-2">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => {
-                window.dispatchEvent(new CustomEvent('open-search'));
-              }}
-              className="text-[14px] text-morandi-blue bg-morandi-blue/10 px-4 py-2 rounded-xl active:bg-morandi-blue/20 transition-colors"
+              onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
+              className="text-[15px] text-ios-blue font-medium active:opacity-60 transition-opacity"
             >
               + 添加持仓
             </button>
             <button
               onClick={() => navigate(`/import?group=${importGroupId}`)}
-              className="text-[14px] text-morandi-pink bg-morandi-pink/10 px-4 py-2 rounded-xl active:bg-morandi-pink/20 transition-colors"
+              className="text-[15px] text-ios-blue font-medium active:opacity-60 transition-opacity"
             >
               📷 截图导入
             </button>
           </div>
-          <span className="text-[10px] text-gray-200">← 左滑可删除</span>
+          <span className="text-[12px] text-ios-gray/50">← 左滑删除</span>
         </div>
       </div>
     </PullToRefresh>

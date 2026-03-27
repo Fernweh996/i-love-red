@@ -5,7 +5,7 @@ import { formatCurrency, formatPercent, getPriceColor } from '@/lib/utils';
 interface Props {
   pnlList: PositionPnL[];
   onRefresh?: () => void;
-  groupLabel?: string; // e.g. "💰 理财通资产" or undefined = "账户资产"
+  groupLabel?: string;
 }
 
 export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props) {
@@ -25,27 +25,27 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
   };
 
   return (
-    <div className="mx-3 mt-3 rounded-2xl bg-white shadow-sm p-5">
+    <div className="mx-4 mt-3 rounded-2xl bg-white p-5">
       <div className="flex items-end justify-between">
         <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <p className="text-[14px] text-gray-400">{groupLabel || '账户资产'}</p>
+          <div className="flex items-center gap-2 mb-1">
+            <p className="text-[14px] text-ios-gray">{groupLabel || '账户资产'}</p>
             {onRefresh && (
               <button
                 onClick={handleRefresh}
-                className={`text-gray-300 hover:text-gray-500 transition-transform ${refreshing ? 'animate-spin' : ''}`}
+                className={`text-ios-gray hover:text-ios-blue transition-transform ${refreshing ? 'animate-spin' : ''}`}
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
               </button>
             )}
           </div>
-          <p className="text-[28px] font-light text-gray-800 leading-none tracking-tight">
+          <p className="text-[34px] font-semibold text-ios-label leading-none tracking-tight">
             {formatCurrency(totalMarketValue)}
           </p>
           <div className="flex items-center gap-2 mt-2">
-            <span className="text-[14px] text-gray-400">累计收益</span>
+            <span className="text-[14px] text-ios-gray">累计收益</span>
             <span className={`text-[14px] font-medium ${getPriceColor(totalProfit)}`}>
               {totalProfit >= 0 ? '+' : ''}{formatCurrency(totalProfit)}
             </span>
@@ -55,8 +55,8 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
           </div>
         </div>
         <div className="text-right">
-          <p className="text-[14px] text-gray-400 mb-1.5">当日涨跌</p>
-          <p className={`text-xl font-light leading-none ${getPriceColor(todayChange)}`}>
+          <p className="text-[14px] text-ios-gray mb-1">今日</p>
+          <p className={`text-[22px] font-semibold leading-none ${getPriceColor(todayChange)}`}>
             {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
           </p>
         </div>

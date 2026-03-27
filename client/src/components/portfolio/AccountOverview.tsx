@@ -29,7 +29,6 @@ export default function AccountOverview({ onGroupSelect }: Props) {
 
   const sortedGroups = [...groups].sort((a, b) => a.order - b.order);
 
-  // Calculate stats per group
   const groupStats: GroupStats[] = useMemo(() => {
     return sortedGroups.map((group) => {
       const groupPositions = positions.filter((p) => p.groupId === group.id);
@@ -59,22 +58,10 @@ export default function AccountOverview({ onGroupSelect }: Props) {
       const profit = totalMarketValue - totalCost;
       const profitRate = totalCost > 0 ? (profit / totalCost) * 100 : 0;
 
-      return {
-        group,
-        totalMarketValue,
-        totalCost,
-        profit,
-        profitRate,
-        todayChange,
-        riseCount,
-        fallCount,
-        flatCount,
-        totalCount: groupPositions.length,
-      };
+      return { group, totalMarketValue, totalCost, profit, profitRate, todayChange, riseCount, fallCount, flatCount, totalCount: groupPositions.length };
     });
   }, [sortedGroups, positions, estimates]);
 
-  // Overall totals
   const overall = useMemo(() => {
     let totalMarketValue = 0;
     let totalCost = 0;
@@ -91,16 +78,16 @@ export default function AccountOverview({ onGroupSelect }: Props) {
 
   return (
     <div className="pb-2">
-      {/* Overall summary card */}
-      <div className="mx-3 mt-3 rounded-2xl bg-white shadow-sm p-5">
+      {/* Overall summary — iOS large header style */}
+      <div className="mx-4 mt-3 rounded-2xl bg-white p-5">
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-[14px] text-gray-400 mb-1.5">总资产</p>
-            <p className="text-[28px] font-light text-gray-800 leading-none tracking-tight">
+            <p className="text-[14px] text-ios-gray mb-1">总资产（元）</p>
+            <p className="text-[34px] font-semibold text-ios-label leading-none tracking-tight">
               {formatCurrency(overall.totalMarketValue)}
             </p>
             <div className="flex items-center gap-2 mt-2">
-              <span className="text-[14px] text-gray-400">累计收益</span>
+              <span className="text-[14px] text-ios-gray">累计收益</span>
               <span className={`text-[14px] font-medium ${getPriceColor(overall.profit)}`}>
                 {overall.profit >= 0 ? '+' : ''}{formatCurrency(overall.profit)}
               </span>
@@ -110,94 +97,67 @@ export default function AccountOverview({ onGroupSelect }: Props) {
             </div>
           </div>
           <div className="text-right">
-            <p className="text-[14px] text-gray-400 mb-1.5">当日涨跌</p>
-            <p className={`text-xl font-light leading-none ${getPriceColor(overall.todayChange)}`}>
+            <p className="text-[14px] text-ios-gray mb-1">今日</p>
+            <p className={`text-[22px] font-semibold leading-none ${getPriceColor(overall.todayChange)}`}>
               {overall.todayChange >= 0 ? '+' : ''}¥{formatCurrency(overall.todayChange)}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Per-group cards */}
-      <div className="px-3 pt-3 space-y-3">
-        {groupStats.map(({ group, totalMarketValue, profit, profitRate, todayChange, riseCount, fallCount, totalCount }) => (
+      {/* Per-group cards — iOS list style */}
+      <div className="mx-4 mt-3 rounded-2xl bg-white overflow-hidden">
+        {groupStats.map(({ group, totalMarketValue, profit, profitRate, todayChange, riseCount, fallCount, totalCount }, index) => (
           <button
             key={group.id}
             onClick={() => onGroupSelect(group.id)}
-            className="w-full bg-white rounded-2xl p-4 text-left shadow-sm active:shadow-none active:bg-gray-50/50 transition-all"
+            className={`w-full p-4 text-left active:bg-ios-fill/30 transition-colors flex items-center ${
+              index > 0 ? 'border-t border-ios-separator/20' : ''
+            }`}
           >
-            {/* Header: icon + name + count */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2.5">
-                <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={28} />
-                <span className="text-[16px] font-normal text-gray-700">{group.name}</span>
-                <span className="text-[12px] text-gray-300">{totalCount} 只</span>
+            {/* Left: icon */}
+            <div className="mr-3 flex-shrink-0">
+              <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={36} />
+            </div>
+
+            {/* Center: name + stats */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[16px] font-medium text-ios-label">{group.name}</span>
+                <span className="text-[14px] text-ios-gray">{totalCount} 只</span>
               </div>
-              <svg className="w-4 h-4 text-gray-200" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              <div className="flex items-center gap-3 mt-1">
+                <span className="text-[14px] text-ios-gray">
+                  ¥{formatCurrency(totalMarketValue)}
+                </span>
+                <span className={`text-[14px] ${getPriceColor(profit)}`}>
+                  {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
+                </span>
+                {(riseCount > 0 || fallCount > 0) && (
+                  <span className="text-[12px] text-ios-gray">
+                    {riseCount > 0 && <span className="text-rise">{riseCount}↑</span>}
+                    {riseCount > 0 && fallCount > 0 && ' '}
+                    {fallCount > 0 && <span className="text-fall">{fallCount}↓</span>}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Right: today change + chevron */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className={`text-[16px] font-medium ${getPriceColor(todayChange)}`}>
+                {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
+              </span>
+              <svg className="w-4 h-4 text-ios-gray/40" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
             </div>
-
-            {/* Stats grid: 2x2 */}
-            <div className="grid grid-cols-2 gap-y-3 gap-x-4">
-              <div>
-                <p className="text-[14px] text-gray-400">账户资产</p>
-                <p className="text-[16px] font-light text-gray-800">{formatCurrency(totalMarketValue)}</p>
-              </div>
-              <div>
-                <p className="text-[14px] text-gray-400">当日收益</p>
-                <p className={`text-[16px] font-light ${getPriceColor(todayChange)}`}>
-                  {todayChange >= 0 ? '+' : ''}¥{formatCurrency(todayChange)}
-                </p>
-              </div>
-              <div>
-                <p className="text-[14px] text-gray-400">持有收益</p>
-                <p className={`text-[16px] font-light ${getPriceColor(profit)}`}>
-                  {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
-                  <span className={`text-[12px] ml-1 ${getPriceColor(profitRate)}`}>
-                    {formatPercent(profitRate)}
-                  </span>
-                </p>
-              </div>
-              <div>
-                <p className="text-[14px] text-gray-400">涨跌分布</p>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  {riseCount > 0 && (
-                    <span className="text-[13px] font-medium text-rise">{riseCount} 涨</span>
-                  )}
-                  {fallCount > 0 && (
-                    <span className="text-[13px] font-medium text-fall">{fallCount} 跌</span>
-                  )}
-                  {riseCount === 0 && fallCount === 0 && (
-                    <span className="text-[13px] text-gray-300">--</span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Mini bar chart: rise vs fall ratio */}
-            {totalCount > 0 && (
-              <div className="mt-3 flex h-1 rounded-full overflow-hidden bg-gray-50">
-                {riseCount > 0 && (
-                  <div
-                    className="bg-rise/50 transition-all"
-                    style={{ width: `${(riseCount / totalCount) * 100}%` }}
-                  />
-                )}
-                {fallCount > 0 && (
-                  <div
-                    className="bg-fall/50 transition-all"
-                    style={{ width: `${(fallCount / totalCount) * 100}%` }}
-                  />
-                )}
-              </div>
-            )}
           </button>
         ))}
 
         {groupStats.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-[13px] text-gray-300">还没有账户，点击右上角 ⚙ 创建</p>
+            <p className="text-[15px] text-ios-gray">还没有账户，点击右上角管理创建</p>
           </div>
         )}
       </div>

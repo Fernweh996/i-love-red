@@ -43,7 +43,7 @@ export default function AppShell({ children }: Props) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-morandi-bg">
+    <div className="min-h-screen bg-ios-bg">
       <main className={`max-w-lg mx-auto ${hideChrome ? '' : 'pb-20'}`}>
         {/* Top search bar (only on tab pages) */}
         {!hideChrome && (
@@ -52,11 +52,11 @@ export default function AppShell({ children }: Props) {
               className="bg-white px-4 pt-3 pb-2"
               onClick={() => setShowSearch(true)}
             >
-              <div className="flex items-center bg-gray-50 rounded-xl px-3 py-2.5 cursor-pointer">
-                <svg className="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <div className="flex items-center bg-ios-fill/50 rounded-[10px] px-3 py-2 cursor-pointer">
+                <svg className="w-4 h-4 text-ios-gray mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span className="text-[15px] text-gray-400">搜索基金代码、名称或拼音</span>
+                <span className="text-[16px] text-ios-gray">搜索基金代码、名称或拼音</span>
               </div>
             </div>
             <MarketIndexBar />
