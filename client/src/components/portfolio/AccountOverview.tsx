@@ -61,19 +61,19 @@ export default function AccountOverview({ onGroupSelect }: Props) {
     <div>
       {/* Hero: total assets */}
       <div className="px-6 pt-8 pb-6 bg-surface">
-        <p className="text-[14px] text-ink-faint tracking-label uppercase mb-2">总资产</p>
+        <p className="text-[14px] text-ink-secondary tracking-label uppercase mb-2">总资产</p>
         <p className="text-[32px] font-medium text-ink leading-none tracking-tight tabular-nums">
           {formatCurrency(overall.totalMarketValue)}
         </p>
         <div className="flex items-center gap-4 mt-3">
           <div>
-            <span className="text-[14px] text-ink-faint tracking-label uppercase">收益</span>
+            <span className="text-[14px] text-ink-secondary tracking-label uppercase">收益</span>
             <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(overall.profit)}`}>
               {overall.profit >= 0 ? '+' : ''}{formatCurrency(overall.profit)}
             </span>
           </div>
           <div>
-            <span className="text-[14px] text-ink-faint tracking-label uppercase">今日</span>
+            <span className="text-[14px] text-ink-secondary tracking-label uppercase">今日</span>
             <span className={`text-[15px] font-medium ml-2 tabular-nums ${getPriceColor(overall.todayChange)}`}>
               {overall.todayChange >= 0 ? '+' : ''}{formatCurrency(overall.todayChange)}
             </span>
@@ -90,7 +90,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
             className="w-full flex items-center px-6 py-4 bg-surface active:bg-surface-bg transition-colors"
             style={{ marginTop: index > 0 ? 1 : 0 }}
           >
-            <div className="mr-4 flex-shrink-0 opacity-60">
+            <div className="mr-4 flex-shrink-0">
               <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={32} />
             </div>
 

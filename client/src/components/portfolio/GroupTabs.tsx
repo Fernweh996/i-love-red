@@ -27,7 +27,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
             className={`text-[15px] transition-colors pb-0.5 ${
               activeGroupId === 'all'
                 ? 'text-ink font-medium border-b-2 border-ink'
-                : 'text-ink-tertiary'
+                : 'text-ink-faint'
             }`}
           >
             全部
@@ -43,7 +43,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
                 className={`flex items-center gap-1.5 text-[15px] transition-colors pb-0.5 ${
                   isActive
                     ? 'text-ink font-medium border-b-2 border-ink'
-                    : 'text-ink-tertiary'
+                    : 'text-ink-faint'
                 }`}
               >
                 <BrandIcon groupId={group.id} fallbackIcon={group.icon} size={16} />
@@ -57,7 +57,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
 
       <button
         onClick={() => navigate('/groups')}
-        className="flex-shrink-0 px-4 py-3 text-ink-tertiary hover:text-ink transition-colors"
+        className="flex-shrink-0 px-4 py-3 text-ink-faint hover:text-ink transition-colors"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
