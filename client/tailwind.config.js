@@ -12,9 +12,8 @@ export default {
         flat: '#999999',
         ink: {
           DEFAULT: '#1A1A1A',
-          secondary: '#666666',
-          tertiary: '#999999',
-          faint: '#CCCCCC',
+          secondary: '#888888',
+          faint: '#BBBBBB',
         },
         surface: {
           DEFAULT: '#FFFFFF',
