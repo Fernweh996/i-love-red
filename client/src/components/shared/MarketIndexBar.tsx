@@ -12,7 +12,7 @@ export default function MarketIndexBar() {
 
   if (loading && indices.length === 0) {
     return (
-      <div className="flex items-center justify-between px-6 py-2 bg-surface">
+      <div className="flex items-center justify-between px-6 py-2 bg-surface-bg">
         {['上证', '深证', '创业板'].map((name) => (
           <div key={name} className="text-center">
             <span className="text-[14px] text-ink-secondary tracking-label uppercase">{name}</span>
@@ -26,7 +26,7 @@ export default function MarketIndexBar() {
   if (indices.length === 0) return null;
 
   return (
-    <div className="flex items-center justify-between px-6 py-2 bg-surface">
+    <div className="flex items-center justify-between px-6 py-2 bg-surface-bg">
       {indices.map((idx) => (
         <div key={idx.code} className="text-center flex items-center gap-1.5">
           <span className="text-[14px] text-ink-secondary tracking-label uppercase">

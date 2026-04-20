@@ -7,18 +7,24 @@ export default {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'sans-serif'],
       },
       colors: {
-        rise: '#E8453C',
-        fall: '#34A853',
-        flat: '#999999',
+        rise: '#D94030',
+        fall: '#2E8B57',
+        flat: '#9498A3',
         ink: {
-          DEFAULT: '#1A1A1A',
-          secondary: '#888888',
-          faint: '#BBBBBB',
+          DEFAULT: '#2C2F36',
+          secondary: '#9498A3',
+          faint: '#B8BBC4',
         },
         surface: {
           DEFAULT: '#FFFFFF',
-          bg: '#FAFAFA',
+          bg: '#F0F1F4',
         },
+        accent: '#6B84B0',
+        border: {
+          DEFAULT: '#DCDFE5',
+          light: '#F0F1F4',
+        },
+        'search-bg': '#E4E6EB',
       },
       letterSpacing: {
         label: '0.08em',

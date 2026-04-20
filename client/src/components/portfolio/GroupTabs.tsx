@@ -26,7 +26,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
             onClick={() => onGroupChange('all')}
             className={`text-[15px] transition-colors pb-0.5 ${
               activeGroupId === 'all'
-                ? 'text-ink font-medium border-b-2 border-ink'
+                ? 'text-ink font-medium border-b-2 border-accent'
                 : 'text-ink-faint'
             }`}
           >
@@ -42,7 +42,7 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
                 onClick={() => onGroupChange(group.id)}
                 className={`flex items-center gap-1.5 text-[15px] transition-colors pb-0.5 ${
                   isActive
-                    ? 'text-ink font-medium border-b-2 border-ink'
+                    ? 'text-ink font-medium border-b-2 border-accent'
                     : 'text-ink-faint'
                 }`}
               >

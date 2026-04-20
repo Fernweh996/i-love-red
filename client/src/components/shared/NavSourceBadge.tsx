@@ -10,7 +10,7 @@ interface Props {
 export default function NavSourceBadge({ source }: Props) {
   if (source === 'confirmed') {
     return (
-      <span className="inline-flex items-center text-[9px] text-amber-600 bg-amber-50 px-1 py-[1px] rounded leading-tight">
+      <span className="inline-flex items-center text-[9px] text-[#2E8B57] bg-[#EBF5EF] px-1 py-[1px] rounded leading-tight">
         净
       </span>
     );
@@ -18,7 +18,7 @@ export default function NavSourceBadge({ source }: Props) {
 
   // Default to estimate badge
   return (
-    <span className="inline-flex items-center text-[9px] text-blue-500 bg-blue-50 px-1 py-[1px] rounded leading-tight">
+    <span className="inline-flex items-center text-[9px] text-[#A67B20] bg-[#FAF5E6] px-1 py-[1px] rounded leading-tight">
       估
     </span>
   );

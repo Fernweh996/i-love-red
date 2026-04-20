@@ -25,7 +25,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
   };
 
   return (
-    <div className="px-6 pt-8 pb-6 bg-surface">
+    <div className="px-6 pt-8 pb-6 bg-surface border-l-[3px] border-accent">
       <div className="flex items-center gap-2 mb-2">
         <p className="text-[14px] text-ink-secondary tracking-label uppercase">
           {groupLabel || '资产'}

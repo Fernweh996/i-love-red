@@ -251,13 +251,13 @@ export default function Dashboard() {
         <div className="flex items-center gap-6">
           <button
             onClick={() => window.dispatchEvent(new CustomEvent('open-search'))}
-            className="text-[15px] text-ink-faint tracking-label uppercase active:text-ink transition-colors"
+            className="text-[15px] text-accent tracking-label uppercase active:text-ink transition-colors"
           >
             + 添加
           </button>
           <button
             onClick={() => navigate(`/import?group=${importGroupId}`)}
-            className="text-[15px] text-ink-faint tracking-label uppercase active:text-ink transition-colors"
+            className="text-[15px] text-accent tracking-label uppercase active:text-ink transition-colors"
           >
             截图导入
           </button>

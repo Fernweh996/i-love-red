@@ -46,7 +46,7 @@ export default function AppShell({ children }: Props) {
               className="px-6 pt-4 pb-2 bg-surface"
               onClick={() => setShowSearch(true)}
             >
-              <div className="flex items-center bg-surface-bg rounded-lg px-4 py-2.5 cursor-pointer">
+              <div className="flex items-center bg-search-bg rounded-lg px-4 py-2.5 cursor-pointer">
                 <svg className="w-4 h-4 text-ink-faint mr-2.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
