@@ -16,23 +16,23 @@ export default function GroupTabs({ activeGroupId, onGroupChange, getCount: getC
   const defaultGetCount = (groupId: string) => positions.filter((p) => p.groupId === groupId).length
   const getCount = getCountProp || defaultGetCount
 
-  const activeStyle = {
+  const activeStyle: React.CSSProperties = {
     fontSize: '15px',
     color: '#2C2F36',
-    fontWeight: '500' as const,
-    paddingBottom: '2px',
+    fontWeight: 500,
+    paddingBottom: '4px',
     borderBottom: '2px solid #6B84B0',
   }
 
-  const inactiveStyle = {
+  const inactiveStyle: React.CSSProperties = {
     fontSize: '15px',
     color: '#B8BBC4',
-    paddingBottom: '2px',
+    paddingBottom: '4px',
   }
 
   return (
     <View style={{ display: 'flex', alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-      <ScrollView scrollX style={{ flex: 1 }} scrollWithAnimation>
+      <ScrollView scrollX style={{ flex: 1 }} enhanced showScrollbar={false}>
         <View style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap', padding: '12px 24px', gap: '24px' }}>
           <View
             onClick={() => onGroupChange('all')}

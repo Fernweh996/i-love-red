@@ -2,7 +2,13 @@ import { useMemo } from 'react'
 import { View, Text } from '@tarojs/components'
 import { usePortfolioStore } from '@/stores/portfolio'
 import { useFundCacheStore } from '@/stores/fund-cache'
-import { formatCurrency, priceDirection, getCurrentNav, getCurrentChangeRate } from '@fund-manager/shared'
+import {
+  formatCurrency,
+  formatPercent,
+  priceDirection,
+  getCurrentNav,
+  getCurrentChangeRate,
+} from '@fund-manager/shared'
 import type { Group } from '@fund-manager/shared'
 
 const DIRECTION_COLORS = {
@@ -71,7 +77,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
       {/* Hero: total assets */}
       <View style={{ padding: '32px 24px 24px', backgroundColor: '#FFFFFF', borderLeft: '3px solid #6B84B0' }}>
         <Text style={{ fontSize: '14px', color: '#9498A3', marginBottom: '8px', display: 'block' }}>总资产</Text>
-        <Text style={{ fontSize: '32px', fontWeight: '500', color: '#2C2F36', lineHeight: '32px' }}>
+        <Text style={{ fontSize: '32px', fontWeight: '500', color: '#2C2F36', lineHeight: '1' }}>
           {formatCurrency(overall.totalMarketValue)}
         </Text>
         <View style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '12px' }}>
@@ -92,9 +98,9 @@ export default function AccountOverview({ onGroupSelect }: Props) {
 
       {/* Group list */}
       <View style={{ marginTop: '8px' }}>
-        {groupStats.map(({ group, totalMarketValue, profit, todayChange: dayChange, totalCount }, index) => {
-          const dayColor = DIRECTION_COLORS[priceDirection(dayChange)]
-          const pColor = DIRECTION_COLORS[priceDirection(profit)]
+        {groupStats.map(({ group, totalMarketValue, profit, todayChange, totalCount }, index) => {
+          const todayDirColor = DIRECTION_COLORS[priceDirection(todayChange)]
+          const profitDirColor = DIRECTION_COLORS[priceDirection(profit)]
           return (
             <View
               key={group.id}
@@ -107,9 +113,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
                 marginTop: index > 0 ? '1px' : '0',
               }}
             >
-              <View style={{ marginRight: '16px', flexShrink: 0 }}>
-                <Text style={{ fontSize: '32px' }}>{group.icon}</Text>
-              </View>
+              <Text style={{ fontSize: '24px', marginRight: '16px', flexShrink: 0 }}>{group.icon}</Text>
 
               <View style={{ flex: 1, minWidth: 0 }}>
                 <Text style={{ fontSize: '15px', color: '#2C2F36' }}>{group.name}</Text>
@@ -119,15 +123,15 @@ export default function AccountOverview({ onGroupSelect }: Props) {
               </View>
 
               <View style={{ textAlign: 'right', flexShrink: 0 }}>
-                <Text style={{ fontSize: '15px', fontWeight: '500', color: dayColor }}>
-                  {dayChange >= 0 ? '+' : ''}{formatCurrency(dayChange)}
+                <Text style={{ fontSize: '15px', fontWeight: '500', color: todayDirColor }}>
+                  {todayChange >= 0 ? '+' : ''}{formatCurrency(todayChange)}
                 </Text>
-                <Text style={{ fontSize: '14px', color: pColor, marginTop: '2px', display: 'block' }}>
+                <Text style={{ fontSize: '14px', marginTop: '2px', color: profitDirColor, display: 'block' }}>
                   {profit >= 0 ? '+' : ''}{formatCurrency(profit)}
                 </Text>
               </View>
 
-              <Text style={{ fontSize: '16px', color: '#B8BBC4', marginLeft: '12px', flexShrink: 0 }}>›</Text>
+              <Text style={{ fontSize: '18px', color: '#B8BBC4', marginLeft: '12px', flexShrink: 0 }}>›</Text>
             </View>
           )
         })}

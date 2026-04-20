@@ -35,8 +35,7 @@ export default function MarketIndexBar() {
   return (
     <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 24px', backgroundColor: '#F0F1F4' }}>
       {indices.map((idx) => {
-        const dir = priceDirection(idx.changeRate)
-        const color = DIRECTION_COLORS[dir]
+        const color = DIRECTION_COLORS[priceDirection(idx.changeRate)]
         return (
           <View key={idx.code} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <Text style={{ fontSize: '14px', color: '#9498A3' }}>

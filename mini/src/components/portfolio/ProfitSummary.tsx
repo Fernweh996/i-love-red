@@ -32,7 +32,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
   }
 
   const profitColor = DIRECTION_COLORS[priceDirection(totalProfit)]
-  const profitRateColor = DIRECTION_COLORS[priceDirection(totalProfitRate)]
+  const rateColor = DIRECTION_COLORS[priceDirection(totalProfitRate)]
   const todayColor = DIRECTION_COLORS[priceDirection(todayChange)]
 
   return (
@@ -48,7 +48,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
         )}
       </View>
 
-      <Text style={{ fontSize: '32px', fontWeight: '500', color: '#2C2F36', lineHeight: '32px' }}>
+      <Text style={{ fontSize: '32px', fontWeight: '500', color: '#2C2F36', lineHeight: '1' }}>
         {formatCurrency(totalMarketValue)}
       </Text>
 
@@ -58,7 +58,7 @@ export default function ProfitSummary({ pnlList, onRefresh, groupLabel }: Props)
           <Text style={{ fontSize: '15px', fontWeight: '500', marginLeft: '8px', color: profitColor }}>
             {totalProfit >= 0 ? '+' : ''}{formatCurrency(totalProfit)}
           </Text>
-          <Text style={{ fontSize: '14px', marginLeft: '4px', color: profitRateColor }}>
+          <Text style={{ fontSize: '14px', marginLeft: '4px', color: rateColor }}>
             {formatPercent(totalProfitRate)}
           </Text>
         </View>

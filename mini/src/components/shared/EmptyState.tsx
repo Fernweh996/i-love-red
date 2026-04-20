@@ -1,6 +1,10 @@
 import { View, Text } from '@tarojs/components'
 
-export default function EmptyState({ icon = '📭', title, description }: {
+export default function EmptyState({
+  icon = '📭',
+  title,
+  description,
+}: {
   icon?: string
   title: string
   description?: string
