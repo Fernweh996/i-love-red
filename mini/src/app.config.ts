@@ -9,6 +9,8 @@ export default defineAppConfig({
     'pages/settings/index',
     'pages/search/index',
     'pages/import/index',
+    'pages/privacy/index',
+    'pages/about/index',
   ],
   tabBar: {
     color: '#B8BBC4',
@@ -25,6 +27,16 @@ export default defineAppConfig({
         text: '自选',
       },
     ],
+  },
+  permission: {
+    'scope.camera': {
+      desc: '用于截图导入功能拍照识别基金信息',
+    },
+  },
+  permission: {
+    'scope.camera': {
+      desc: '用于截图导入功能拍照识别基金信息',
+    },
   },
   window: {
     navigationBarTitleText: '基金管家',

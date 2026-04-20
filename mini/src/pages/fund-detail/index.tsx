@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components'
-import Taro, { getCurrentInstance } from '@tarojs/taro'
+import Taro, { getCurrentInstance, useShareAppMessage } from '@tarojs/taro'
 import { useState, useEffect, useMemo } from 'react'
 import { getFundEstimate, getFundHistory } from '@/api'
 import { usePortfolioStore, DEFAULT_GROUP_ID } from '@/stores/portfolio'
@@ -48,6 +48,13 @@ export default function FundDetail() {
 
   const position = positions.find((p) => p.fundCode === code && p.groupId === groupId)
 
+  const fundName = estimate?.name || position?.fundName
+
+  useShareAppMessage(() => ({
+    title: `${fundName || '基金详情'} — 基金管家`,
+    path: `/pages/fund-detail/index?code=${code}`,
+  }))
+
   useEffect(() => {
     if (!code) return
     setLoading(true)
@@ -68,7 +75,7 @@ export default function FundDetail() {
 
   // Dynamic nav bar title
   useEffect(() => {
-    const name = estimate?.name || position?.fundName
+    const name = fundName
     if (name) {
       Taro.setNavigationBarTitle({ title: name })
     }

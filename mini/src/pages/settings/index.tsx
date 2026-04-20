@@ -245,6 +245,21 @@ export default function SettingsPage() {
             <Text style={{ fontSize: '16px', color: '#B8BBC4' }}>›</Text>
           </View>
         </View>
+
+        {/* About section */}
+        <View style={{ backgroundColor: '#FFFFFF', borderRadius: '12px', padding: '16px', marginTop: '16px' }}>
+          <Text style={{ fontSize: '13px', color: '#B8BBC4', fontWeight: '500', display: 'block', marginBottom: '12px' }}>ℹ️ 关于</Text>
+
+          <View onClick={() => Taro.navigateTo({ url: '/pages/privacy/index' })} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #F0F1F4' }}>
+            <Text style={{ fontSize: '14px', color: '#2C2F36' }}>隐私政策</Text>
+            <Text style={{ fontSize: '16px', color: '#B8BBC4' }}>›</Text>
+          </View>
+
+          <View onClick={() => Taro.navigateTo({ url: '/pages/about/index' })} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0' }}>
+            <Text style={{ fontSize: '14px', color: '#2C2F36' }}>关于基金管家</Text>
+            <Text style={{ fontSize: '16px', color: '#B8BBC4' }}>›</Text>
+          </View>
+        </View>
       </View>
     </View>
   )

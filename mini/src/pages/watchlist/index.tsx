@@ -116,7 +116,10 @@ export default function WatchlistPage() {
     }
   })
 
-  useShareAppMessage(() => ({ title: '自选基金', path: '/pages/watchlist/index' }))
+  useShareAppMessage(() => ({
+    title: '基金管家 — 我的自选基金',
+    path: '/pages/watchlist/index',
+  }))
 
   const filteredItems = useMemo(() => {
     if (activeGroupId === 'all') return items
