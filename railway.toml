@@ -1,0 +1,5 @@
+[build]
+buildCommand = "npm install --workspace=server --workspace=client --workspace=shared && npm run build -w client && npm run build -w server"
+
+[deploy]
+startCommand = "npm run start"
