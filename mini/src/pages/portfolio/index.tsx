@@ -1,14 +1,25 @@
-import { View, Text } from '@tarojs/components'
-import { formatCurrency } from '@fund-manager/shared'
+import { useRef } from 'react'
+import { View } from '@tarojs/components'
+import { usePullDownRefresh, stopPullDownRefresh } from '@tarojs/taro'
+import Dashboard from '@/components/portfolio/Dashboard'
+import type { DashboardHandle } from '@/components/portfolio/Dashboard'
+import MarketIndexBar from '@/components/shared/MarketIndexBar'
 
 export default function Portfolio() {
-  const testValue = formatCurrency(12345.67)
+  const dashboardRef = useRef<DashboardHandle>(null)
+
+  usePullDownRefresh(async () => {
+    try {
+      await dashboardRef.current?.refresh()
+    } finally {
+      stopPullDownRefresh()
+    }
+  })
+
   return (
-    <View style={{ padding: '40px 20px', textAlign: 'center' }}>
-      <Text style={{ fontSize: '18px', color: '#2C2F36' }}>持有页面</Text>
-      <View style={{ marginTop: '12px' }}>
-        <Text style={{ fontSize: '14px', color: '#9498A3' }}>shared 包测试: {testValue}</Text>
-      </View>
+    <View style={{ minHeight: '100vh', backgroundColor: '#F0F1F4' }}>
+      <MarketIndexBar />
+      <Dashboard ref={dashboardRef} />
     </View>
   )
 }
