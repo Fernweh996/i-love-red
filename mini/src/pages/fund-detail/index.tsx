@@ -17,6 +17,7 @@ import {
 import type { FundEstimate } from '@fund-manager/shared'
 import NavSourceBadge from '@/components/shared/NavSourceBadge'
 import HoldingsTable from '@/components/fund/HoldingsTable'
+import NAVChart from '@/components/chart/NAVChart'
 
 type Tab = 'chart' | 'holdings'
 
@@ -50,16 +51,28 @@ export default function FundDetail() {
   useEffect(() => {
     if (!code) return
     setLoading(true)
+    Taro.showLoading({ title: '加载中...' })
     getFundEstimate(code)
       .then(setEstimate)
       .catch(console.error)
-      .finally(() => setLoading(false))
+      .finally(() => {
+        setLoading(false)
+        Taro.hideLoading()
+      })
     getFundHistory(code, 1, 3).then(({ records }) => {
       if (records.length >= 2) {
         setPrevNav(records[1].nav)
       }
     }).catch(() => {})
   }, [code])
+
+  // Dynamic nav bar title
+  useEffect(() => {
+    const name = estimate?.name || position?.fundName
+    if (name) {
+      Taro.setNavigationBarTitle({ title: name })
+    }
+  }, [estimate?.name, position?.fundName])
 
   const stats = useMemo(() => {
     if (!position || !estimate) return null
@@ -84,7 +97,7 @@ export default function FundDetail() {
   ]
 
   return (
-    <View style={{ minHeight: '100vh', backgroundColor: '#F0F1F4', paddingBottom: '80px' }}>
+    <View style={{ minHeight: '100vh', backgroundColor: '#F0F1F4', paddingBottom: '120px' }}>
       {/* Header */}
       <View style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #DCDFE5', padding: '12px 16px 20px' }}>
         {estimate && (
@@ -171,9 +184,7 @@ export default function FundDetail() {
           {/* Tab content */}
           <View style={{ margin: '0 12px 12px', backgroundColor: '#FFFFFF', borderRadius: '0 0 12px 12px', overflow: 'hidden' }}>
             {activeTab === 'chart' && (
-              <View style={{ padding: '40px 0', textAlign: 'center' }}>
-                <Text style={{ fontSize: '12px', color: '#B8BBC4' }}>图表功能开发中</Text>
-              </View>
+              <NAVChart code={code} groupId={groupId} />
             )}
             {activeTab === 'holdings' && <HoldingsTable code={code} />}
           </View>
