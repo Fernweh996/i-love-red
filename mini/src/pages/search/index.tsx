@@ -55,6 +55,17 @@ export default function SearchPage() {
             <Text style={{ fontSize: '12px', color: '#B8BBC4' }}>支持基金代码、名称、拼音搜索</Text>
           </View>
         )}
+        {query.trim() && loading && (
+          <View style={{ textAlign: 'center', marginTop: '40px' }}>
+            <Text style={{ fontSize: '13px', color: '#6B84B0' }}>搜索中...</Text>
+          </View>
+        )}
+        {query.trim() && !loading && results.length === 0 && (
+          <View style={{ textAlign: 'center', marginTop: '60px' }}>
+            <Text style={{ fontSize: '32px', display: 'block', marginBottom: '8px' }}>🔍</Text>
+            <Text style={{ fontSize: '13px', color: '#B8BBC4' }}>未找到相关基金</Text>
+          </View>
+        )}
         {results.map((fund) => {
           const shortType = fund.type.replace(/型.*$/, '').slice(0, 4)
           const badge = fundTypeBadgeStyle(fund.type)

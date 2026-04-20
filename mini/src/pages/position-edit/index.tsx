@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { View, Text, Input } from '@tarojs/components'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { usePortfolioStore, DEFAULT_GROUP_ID } from '@/stores/portfolio'
@@ -26,6 +26,12 @@ export default function PositionEdit() {
   const convertPosition = usePortfolioStore((s) => s.convertPosition)
 
   const position = positions.find((p) => p.fundCode === code && p.groupId === groupId)
+
+  // Dynamic nav bar title
+  useEffect(() => {
+    const title = position ? `修改 · ${position.fundName}` : '添加持仓'
+    Taro.setNavigationBarTitle({ title })
+  }, [position?.fundName])
 
   const availableTabs = position
     ? TABS

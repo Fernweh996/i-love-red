@@ -25,7 +25,10 @@ export default function FundHistory() {
   useEffect(() => {
     if (!code) return
     getFundEstimate(code)
-      .then((est) => setFundName(est.name))
+      .then((est) => {
+        setFundName(est.name)
+        Taro.setNavigationBarTitle({ title: `${est.name} · 历史净值` })
+      })
       .catch(() => {})
   }, [code])
 
@@ -33,6 +36,7 @@ export default function FundHistory() {
     async (pageNum: number) => {
       if (!code) return
       setLoading(true)
+      if (pageNum === 1) Taro.showLoading({ title: '加载中...' })
       try {
         const data = await getFundHistory(code, pageNum, PAGE_SIZE)
         setTotalCount(data.totalCount)
@@ -47,6 +51,7 @@ export default function FundHistory() {
       } finally {
         setLoading(false)
         setInitialLoading(false)
+        Taro.hideLoading()
       }
     },
     [code],

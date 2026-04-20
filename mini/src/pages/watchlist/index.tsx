@@ -5,6 +5,7 @@ import { formatPercent, getCurrentNav, getCurrentChangeRate, priceDirection } fr
 import { useWatchlistStore } from '@/stores/watchlist'
 import { useFundCacheStore } from '@/stores/fund-cache'
 import { showToast } from '@/stores/toast'
+import { useFundEstimate } from '@/hooks/useFundEstimate'
 import GroupTabs from '@/components/portfolio/GroupTabs'
 import EmptyState from '@/components/shared/EmptyState'
 
@@ -92,6 +93,7 @@ function WatchCard({ fundCode, fundName, fundType, onRemove, onClick }: WatchCar
           <Text style={{ fontSize: '13px', color: '#9498A3', width: '60px', textAlign: 'right' }}>
             {currentNav > 0 ? currentNav.toFixed(4) : '--'}
           </Text>
+          <Text style={{ fontSize: '14px', color: '#B8BBC4', marginLeft: '-4px' }}>›</Text>
         </View>
       </View>
     </View>
@@ -104,8 +106,14 @@ export default function WatchlistPage() {
   const setActiveGroupId = useWatchlistStore((s) => s.setActiveGroupId)
   const removeItem = useWatchlistStore((s) => s.removeItem)
 
-  usePullDownRefresh(() => {
-    setTimeout(() => { Taro.stopPullDownRefresh() }, 500)
+  const { refresh } = useFundEstimate()
+
+  usePullDownRefresh(async () => {
+    try {
+      await refresh()
+    } finally {
+      Taro.stopPullDownRefresh()
+    }
   })
 
   useShareAppMessage(() => ({ title: '自选基金', path: '/pages/watchlist/index' }))

@@ -5,3 +5,16 @@ page {
   font-size: 28px;
   line-height: 1.5;
 }
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: #FFFFFF;
+}

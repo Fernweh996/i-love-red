@@ -14,7 +14,7 @@ interface Props {
 }
 
 function drawChart(
-  ctx: any,
+  ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
   data: { date: string; nav: number }[],
@@ -37,7 +37,7 @@ function drawChart(
   // Clear
   ctx.clearRect(0, 0, width, height)
 
-  // Grid lines (4 horizontal)
+  // Grid lines (3 horizontal)
   ctx.strokeStyle = '#F0F1F4'
   ctx.lineWidth = 0.5
   for (let i = 0; i <= 3; i++) {
@@ -93,10 +93,13 @@ function drawChart(
 export default function NAVChart({ code, groupId }: Props) {
   const [period, setPeriod] = useState<Period>('3m')
   const { records, loading, error } = useFundHistory(code, period)
-  const canvasReady = useRef(false)
+  const canvasRef = useRef<any>(null)
 
   const chartData = useMemo(() => {
-    return records.map((r) => ({ date: r.date, nav: r.nav }))
+    return records.map((r) => ({
+      date: r.date,
+      nav: r.nav,
+    }))
   }, [records])
 
   const overallChange = useMemo(() => {
@@ -108,7 +111,7 @@ export default function NAVChart({ code, groupId }: Props) {
 
   const lineColor = overallChange >= 0 ? RISE : FALL
 
-  // Records newest-first for the list
+  // Records newest-first for list display
   const listRecords = useMemo(() => [...records].reverse(), [records])
   const displayRecords = listRecords.slice(0, MAX_LIST_ROWS)
   const showViewAll = listRecords.length > MAX_LIST_ROWS
@@ -116,27 +119,32 @@ export default function NAVChart({ code, groupId }: Props) {
   useEffect(() => {
     if (chartData.length < 2) return
 
-    const query = Taro.createSelectorQuery()
-    query
-      .select('#nav-chart')
-      .fields({ node: true, size: true })
-      .exec((res) => {
-        if (!res || !res[0]) return
-        const canvas = res[0].node
-        if (!canvas) return
-        const ctx = canvas.getContext('2d')
-        const dpr = Taro.getSystemInfoSync().pixelRatio
-        const width = res[0].width
-        const height = res[0].height
-        canvas.width = width * dpr
-        canvas.height = height * dpr
-        ctx.scale(dpr, dpr)
-        drawChart(ctx, width, height, chartData, lineColor)
-      })
+    const timer = setTimeout(() => {
+      const query = Taro.createSelectorQuery()
+      query
+        .select('#nav-chart')
+        .fields({ node: true, size: true })
+        .exec((res) => {
+          if (!res || !res[0]) return
+          const canvas = res[0].node
+          if (!canvas) return
+          const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+          const dpr = Taro.getSystemInfoSync().pixelRatio
+          const width = res[0].width
+          const height = res[0].height
+          canvas.width = width * dpr
+          canvas.height = height * dpr
+          ctx.scale(dpr, dpr)
+          canvasRef.current = { canvas, ctx, width, height }
+          drawChart(ctx, width, height, chartData, lineColor)
+        })
+    }, 100)
+
+    return () => clearTimeout(timer)
   }, [chartData, lineColor])
 
   return (
-    <View style={{ padding: '0 12px 16px' }}>
+    <View style={{ padding: '0 12px 12px' }}>
       {/* Period selector + change summary */}
       <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0 8px' }}>
         <PeriodSelector value={period} onChange={setPeriod} />
@@ -148,13 +156,12 @@ export default function NAVChart({ code, groupId }: Props) {
               color: overallChange >= 0 ? RISE : FALL,
             }}
           >
-            {overallChange >= 0 ? '+' : ''}
-            {overallChange.toFixed(2)}%
+            {overallChange >= 0 ? '+' : ''}{overallChange.toFixed(2)}%
           </Text>
         )}
       </View>
 
-      {/* Chart area */}
+      {/* Chart */}
       {loading ? (
         <View style={{ padding: '40px 0', textAlign: 'center' }}>
           <Text style={{ fontSize: '12px', color: '#B8BBC4' }}>加载历史数据...</Text>
@@ -162,6 +169,10 @@ export default function NAVChart({ code, groupId }: Props) {
       ) : error ? (
         <View style={{ padding: '40px 0', textAlign: 'center' }}>
           <Text style={{ fontSize: '12px', color: '#B8BBC4' }}>{error}</Text>
+        </View>
+      ) : chartData.length < 2 ? (
+        <View style={{ padding: '40px 0', textAlign: 'center' }}>
+          <Text style={{ fontSize: '12px', color: '#B8BBC4' }}>暂无数据</Text>
         </View>
       ) : (
         <Canvas
@@ -192,7 +203,7 @@ export default function NAVChart({ code, groupId }: Props) {
               key={r.date}
               style={{ display: 'flex', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #F0F1F4' }}
             >
-              <Text style={{ flex: 1, fontSize: '12px', color: '#6B6E76' }}>{r.date}</Text>
+              <Text style={{ flex: 1, fontSize: '12px', color: '#5A5E68' }}>{r.date}</Text>
               <Text style={{ width: '80px', textAlign: 'right', fontSize: '12px', color: '#2C2F36' }}>
                 {r.nav.toFixed(4)}
               </Text>
@@ -205,16 +216,26 @@ export default function NAVChart({ code, groupId }: Props) {
                   color: r.changeRate > 0 ? RISE : r.changeRate < 0 ? FALL : '#B8BBC4',
                 }}
               >
-                {r.changeRate > 0 ? '+' : ''}
-                {r.changeRate.toFixed(2)}%
+                {r.changeRate > 0 ? '+' : ''}{r.changeRate.toFixed(2)}%
               </Text>
             </View>
           ))}
 
           {/* View all button */}
           {showViewAll && (
-            <View style={{ padding: '12px 0', textAlign: 'center', borderTop: '1px solid #F0F1F4' }}>
-              <Text style={{ fontSize: '13px', color: '#6B84B0' }}>查看全部历史净值 &gt;</Text>
+            <View
+              onClick={() => {
+                Taro.navigateTo({
+                  url: `/pages/fund-history/index?code=${code}${groupId ? `&group=${groupId}` : ''}`,
+                })
+              }}
+              style={{
+                padding: '12px 0',
+                textAlign: 'center',
+                borderTop: '1px solid #F0F1F4',
+              }}
+            >
+              <Text style={{ fontSize: '13px', color: '#6B84B0' }}>查看历史净值 &gt;</Text>
             </View>
           )}
         </View>
