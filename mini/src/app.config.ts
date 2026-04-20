@@ -21,21 +21,16 @@ export default defineAppConfig({
       {
         pagePath: 'pages/portfolio/index',
         text: '持有',
-        iconPath: 'assets/tab-portfolio.svg',
-        selectedIconPath: 'assets/tab-portfolio-active.svg',
+        iconPath: 'assets/tab-portfolio.png',
+        selectedIconPath: 'assets/tab-portfolio-active.png',
       },
       {
         pagePath: 'pages/watchlist/index',
         text: '自选',
-        iconPath: 'assets/tab-watchlist.svg',
-        selectedIconPath: 'assets/tab-watchlist-active.svg',
+        iconPath: 'assets/tab-watchlist.png',
+        selectedIconPath: 'assets/tab-watchlist-active.png',
       },
     ],
-  },
-  permission: {
-    'scope.camera': {
-      desc: '用于截图导入功能拍照识别基金信息',
-    },
   },
   permission: {
     'scope.camera': {
