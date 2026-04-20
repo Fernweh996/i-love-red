@@ -22,8 +22,8 @@ export default function PeriodSelector({ value, onChange }: Props) {
           onClick={() => onChange(p.value)}
           className={`px-2.5 py-1 text-[11px] rounded-full transition-colors ${
             value === p.value
-              ? 'bg-blue-500 text-white'
-              : 'text-gray-400 hover:text-gray-600'
+              ? 'bg-accent text-white'
+              : 'text-ink-faint hover:text-ink-secondary'
           }`}
         >
           {p.label}

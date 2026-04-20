@@ -8,13 +8,13 @@ interface Props {
 }
 
 function fundTypeColor(type: string): string {
-  if (type.includes('指数')) return 'bg-purple-50 text-purple-500';
-  if (type.includes('混合')) return 'bg-blue-50 text-blue-500';
-  if (type.includes('股票')) return 'bg-red-50 text-red-500';
-  if (type.includes('债券')) return 'bg-green-50 text-green-600';
-  if (type.includes('货币')) return 'bg-gray-100 text-gray-500';
-  if (type.includes('QDII')) return 'bg-orange-50 text-orange-500';
-  return 'bg-gray-100 text-gray-500';
+  if (type.includes('指数')) return 'bg-accent/10 text-accent';
+  if (type.includes('混合')) return 'bg-accent/10 text-accent';
+  if (type.includes('股票')) return 'bg-rise/10 text-rise';
+  if (type.includes('债券')) return 'bg-fall/10 text-fall';
+  if (type.includes('货币')) return 'bg-surface-bg text-ink-secondary';
+  if (type.includes('QDII')) return 'bg-[#FAF5E6] text-[#A67B20]';
+  return 'bg-surface-bg text-ink-secondary';
 }
 
 export default function SearchOverlay({ onClose }: Props) {
@@ -28,11 +28,11 @@ export default function SearchOverlay({ onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex flex-col">
+    <div className="fixed inset-0 bg-surface z-50 flex flex-col">
       {/* Search header */}
-      <div className="flex items-center gap-2 px-4 pt-3 pb-2 border-b border-gray-100">
-        <div className="flex-1 flex items-center bg-gray-50 rounded-xl px-3 py-2.5">
-          <svg className="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+      <div className="flex items-center gap-2 px-4 pt-3 pb-2 border-b border-border-light">
+        <div className="flex-1 flex items-center bg-surface-bg rounded-xl px-3 py-2.5">
+          <svg className="w-4 h-4 text-ink-faint mr-2 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -44,17 +44,17 @@ export default function SearchOverlay({ onClose }: Props) {
             autoFocus
           />
           {query && (
-            <button onClick={() => setQuery('')} className="text-gray-300 ml-2">
+            <button onClick={() => setQuery('')} className="text-ink-faint ml-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           )}
           {loading && (
-            <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin ml-2" />
+            <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin ml-2" />
           )}
         </div>
-        <button onClick={onClose} className="text-[14px] text-gray-500 flex-shrink-0">
+        <button onClick={onClose} className="text-[14px] text-ink-secondary flex-shrink-0">
           取消
         </button>
       </div>
@@ -62,26 +62,26 @@ export default function SearchOverlay({ onClose }: Props) {
       {/* Results */}
       <div className="flex-1 overflow-y-auto">
         {!query.trim() && (
-          <p className="text-center text-xs text-gray-400 mt-8">支持基金代码、名称、拼音搜索</p>
+          <p className="text-center text-xs text-ink-faint mt-8">支持基金代码、名称、拼音搜索</p>
         )}
         {results.map((fund) => {
           const shortType = fund.type.replace(/型.*$/, '').slice(0, 4);
           return (
             <button
               key={fund.code}
-              className="w-full px-4 py-3 flex items-center justify-between active:bg-gray-50 border-b border-gray-50"
+              className="w-full px-4 py-3 flex items-center justify-between active:bg-surface-bg border-b border-border-light"
               onClick={() => handleSelect(fund)}
             >
               <div className="text-left flex-1 min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <p className="text-[13px] font-medium text-gray-800 truncate">{fund.name}</p>
+                  <p className="text-[13px] font-medium text-ink truncate">{fund.name}</p>
                   <span className={`flex-shrink-0 text-[9px] px-1.5 py-[1px] rounded ${fundTypeColor(fund.type)}`}>
                     {shortType}
                   </span>
                 </div>
-                <p className="text-[11px] text-gray-400 mt-0.5">{fund.code}</p>
+                <p className="text-[11px] text-ink-faint mt-0.5">{fund.code}</p>
               </div>
-              <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-ink-faint flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </button>

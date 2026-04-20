@@ -60,7 +60,7 @@ export default function AccountOverview({ onGroupSelect }: Props) {
   return (
     <div>
       {/* Hero: total assets */}
-      <div className="px-6 pt-8 pb-6 bg-surface">
+      <div className="px-6 pt-8 pb-6 bg-surface border-l-[3px] border-accent">
         <p className="text-[14px] text-ink-secondary tracking-label uppercase mb-2">总资产</p>
         <p className="text-[32px] font-medium text-ink leading-none tracking-tight tabular-nums">
           {formatCurrency(overall.totalMarketValue)}

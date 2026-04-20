@@ -50,7 +50,7 @@ export default function NAVChart({ code, groupId }: Props) {
   }, [records]);
 
   const startNav = records.length > 0 ? records[0].nav : 0;
-  const lineColor = overallChange >= 0 ? '#ef4444' : '#22c55e';
+  const lineColor = overallChange >= 0 ? '#D94030' : '#2E8B57';
 
   // Records newest-first for the list display
   const listRecords = useMemo(() => {
@@ -75,7 +75,7 @@ export default function NAVChart({ code, groupId }: Props) {
       {loading ? (
         <LoadingSpinner text="加载历史数据..." />
       ) : error ? (
-        <p className="text-center text-xs text-gray-400 py-10">{error}</p>
+        <p className="text-center text-xs text-ink-faint py-10">{error}</p>
       ) : (
         <div style={{ height: 220 }}>
           <ResponsiveContainer width="100%" height="100%">
@@ -83,21 +83,21 @@ export default function NAVChart({ code, groupId }: Props) {
               {startNav > 0 && (
                 <ReferenceLine
                   y={startNav}
-                  stroke="#d1d5db"
+                  stroke="#DCDFE5"
                   strokeDasharray="4 4"
                   strokeWidth={1}
                 />
               )}
               <XAxis
                 dataKey="date"
-                tick={{ fontSize: 10, fill: '#9ca3af' }}
-                axisLine={{ stroke: '#e5e7eb' }}
+                tick={{ fontSize: 10, fill: '#9498A3' }}
+                axisLine={{ stroke: '#E8EAEF' }}
                 tickLine={false}
                 interval="preserveStartEnd"
               />
               <YAxis
                 domain={[minNav, maxNav]}
-                tick={{ fontSize: 10, fill: '#9ca3af' }}
+                tick={{ fontSize: 10, fill: '#9498A3' }}
                 axisLine={false}
                 tickLine={false}
                 width={45}
@@ -107,8 +107,8 @@ export default function NAVChart({ code, groupId }: Props) {
                 contentStyle={{
                   fontSize: 11,
                   borderRadius: 8,
-                  border: 'none',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+                  border: '1px solid #DCDFE5',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
                   padding: '6px 10px',
                 }}
                 formatter={(value: number) => [value.toFixed(4), '净值']}
@@ -131,23 +131,23 @@ export default function NAVChart({ code, groupId }: Props) {
 
       {/* NAV History List */}
       {!loading && !error && records.length > 0 && (
-        <div className="border-t border-gray-100 mt-2">
+        <div className="border-t border-border-light mt-2">
           <div className="flex items-center justify-between px-3 py-2.5">
-            <span className="text-[13px] font-medium text-gray-800">过往净值</span>
-            <span className="text-[11px] text-gray-400">共{listRecords.length}个交易日</span>
+            <span className="text-[13px] font-medium text-ink">过往净值</span>
+            <span className="text-[11px] text-ink-faint">共{listRecords.length}个交易日</span>
           </div>
           <div className="px-3">
-            <div className="flex text-[11px] text-gray-400 pb-1.5 border-b border-gray-50">
+            <div className="flex text-[11px] text-ink-faint pb-1.5 border-b border-border-light">
               <span className="flex-1">日期</span>
               <span className="w-20 text-right">单位净值</span>
               <span className="w-20 text-right">日涨幅</span>
             </div>
             {displayRecords.map((r) => (
-              <div key={r.date} className="flex items-center text-[12px] py-2 border-b border-gray-50 last:border-b-0">
-                <span className="flex-1 text-gray-600">{r.date}</span>
-                <span className="w-20 text-right text-gray-800">{r.nav.toFixed(4)}</span>
+              <div key={r.date} className="flex items-center text-[12px] py-2 border-b border-border-light last:border-b-0">
+                <span className="flex-1 text-ink-secondary">{r.date}</span>
+                <span className="w-20 text-right text-ink">{r.nav.toFixed(4)}</span>
                 <span className={`w-20 text-right font-medium ${
-                  r.changeRate > 0 ? 'text-rise' : r.changeRate < 0 ? 'text-fall' : 'text-gray-400'
+                  r.changeRate > 0 ? 'text-rise' : r.changeRate < 0 ? 'text-fall' : 'text-ink-faint'
                 }`}>
                   {r.changeRate > 0 ? '+' : ''}{r.changeRate.toFixed(2)}%
                 </span>
@@ -157,7 +157,7 @@ export default function NAVChart({ code, groupId }: Props) {
           {showViewAll && (
             <button
               onClick={() => navigate(`/fund/${code}/history${groupId ? `?group=${groupId}` : ''}`)}
-              className="w-full py-3 text-[13px] text-blue-500 border-t border-gray-100 flex items-center justify-center gap-1"
+              className="w-full py-3 text-[13px] text-accent border-t border-border-light flex items-center justify-center gap-1"
             >
               查看历史净值
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

@@ -11,7 +11,7 @@ export default function GroupSelector({ value, onChange }: Props) {
 
   return (
     <div>
-      <label className="text-xs text-gray-500 mb-1 block">选择分组</label>
+      <label className="text-xs text-ink-secondary mb-1 block">选择分组</label>
       <div className="flex flex-wrap gap-2">
         {sortedGroups.map((g) => (
           <button
@@ -19,8 +19,8 @@ export default function GroupSelector({ value, onChange }: Props) {
             onClick={() => onChange(g.id)}
             className={`px-3 py-1.5 rounded-lg text-[13px] transition-colors ${
               value === g.id
-                ? 'bg-blue-50 text-blue-600 ring-1 ring-blue-200'
-                : 'bg-gray-50 text-gray-500'
+                ? 'bg-accent/10 text-accent ring-1 ring-accent/30'
+                : 'bg-surface-bg text-ink-secondary'
             }`}
           >
             {g.icon} {g.name}

@@ -62,9 +62,9 @@ export default function PullToRefresh({ onRefresh, children }: Props) {
         style={{ height: pullDistance > 0 ? pullDistance : 0 }}
       >
         {refreshing ? (
-          <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-5 h-5 border-2 border-accent border-t-transparent rounded-full animate-spin" />
         ) : (
-          <span className="text-[11px] text-gray-400">
+          <span className="text-[11px] text-ink-faint">
             {pullDistance >= THRESHOLD ? '松手刷新' : '下拉刷新'}
           </span>
         )}
