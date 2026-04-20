@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "server",
-    "client"
+    "client",
+    "shared"
   ],
   "engines": {
     "node": ">=22"
