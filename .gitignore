@@ -3,3 +3,5 @@ node_modules/
 *.log
 server/uploads/
 client/dist/imported-funds.json
+client/dist/
+server/dist/
