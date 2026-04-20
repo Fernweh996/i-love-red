@@ -138,25 +138,25 @@ export default function ImportPage() {
   }, [uploadedFile]);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-surface-bg pb-20">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-4 py-3">
-        <h1 className="text-lg font-semibold text-gray-800">截图导入</h1>
-        <p className="text-xs text-gray-400 mt-0.5">
+      <div className="bg-surface border-b border-gray-100 px-4 py-3">
+        <h1 className="text-lg font-semibold text-ink">截图导入</h1>
+        <p className="text-xs text-ink-faint mt-0.5">
           上传持仓截图，通过 Claude Code 识别并导入基金信息
         </p>
       </div>
       {targetGroup && (
-        <div className="mx-4 mt-2 px-3 py-2 bg-blue-50 rounded-lg flex items-center gap-2">
+        <div className="mx-4 mt-2 px-3 py-2 bg-accent/10 rounded-lg flex items-center gap-2">
           <span className="text-sm">{targetGroup.icon}</span>
-          <span className="text-[13px] text-blue-600">导入到：{targetGroup.name}</span>
+          <span className="text-[13px] text-accent">导入到：{targetGroup.name}</span>
         </div>
       )}
 
       <div className="max-w-lg mx-auto p-4 space-y-4">
         {/* Error message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-600">
+          <div className="bg-rise/10 border border-rise/20 rounded-xl p-3 text-sm text-rise">
             {error}
           </div>
         )}
@@ -164,16 +164,16 @@ export default function ImportPage() {
         {/* Loading state */}
         {stage === 'loading' && (
           <div className="text-center py-8 space-y-3">
-            <div className="w-10 h-10 mx-auto border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-gray-500">正在加载识别结果...</p>
+            <div className="w-10 h-10 mx-auto border-3 border-accent border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-ink-secondary">正在加载识别结果...</p>
           </div>
         )}
 
         {/* Uploading state */}
         {stage === 'uploading' && (
           <div className="text-center py-8 space-y-3">
-            <div className="w-10 h-10 mx-auto border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-gray-500">正在上传图片...</p>
+            <div className="w-10 h-10 mx-auto border-3 border-accent border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-ink-secondary">正在上传图片...</p>
           </div>
         )}
 
@@ -188,7 +188,7 @@ export default function ImportPage() {
             />
             <button
               onClick={handleReset}
-              className="w-full py-2.5 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+              className="w-full py-2.5 text-sm text-ink-faint hover:text-ink-secondary transition-colors"
             >
               清除识别结果
             </button>
@@ -199,12 +199,12 @@ export default function ImportPage() {
         {stage === 'uploaded' && uploadedFile && (
           <>
             {/* Image preview */}
-            <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-3">
+            <div className="bg-surface rounded-xl border border-gray-100 p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-gray-700">已上传截图</h3>
+                <h3 className="text-sm font-medium text-ink">已上传截图</h3>
                 <button
                   onClick={handleReset}
-                  className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+                  className="text-xs text-ink-faint hover:text-rise transition-colors"
                 >
                   删除重传
                 </button>
@@ -212,32 +212,32 @@ export default function ImportPage() {
               <img
                 src={uploadedFile.preview}
                 alt="uploaded screenshot"
-                className="w-full max-h-64 object-contain rounded-lg bg-gray-50"
+                className="w-full max-h-64 object-contain rounded-lg bg-surface-bg"
               />
             </div>
 
             {/* Command to copy */}
-            <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-3">
-              <h3 className="text-sm font-medium text-gray-700">请在 Claude Code 中运行以下命令</h3>
+            <div className="bg-surface rounded-xl border border-gray-100 p-4 space-y-3">
+              <h3 className="text-sm font-medium text-ink">请在 Claude Code 中运行以下命令</h3>
               <div className="flex items-center gap-2">
                 <input
                   id="recognize-command"
                   readOnly
                   value={`/recognize-fund ${uploadedFile.absolutePath}`}
-                  className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-600 font-mono"
+                  className="flex-1 bg-surface-bg border border-border rounded-lg px-3 py-2 text-xs text-ink-secondary font-mono"
                 />
                 <button
                   onClick={handleCopy}
                   className={`flex-shrink-0 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
                     copied
-                      ? 'bg-green-100 text-green-600'
-                      : 'bg-blue-500 hover:bg-blue-600 text-white'
+                      ? 'bg-fall/10 text-fall'
+                      : 'bg-accent hover:bg-accent/90 text-white'
                   }`}
                 >
                   {copied ? '已复制' : '复制'}
                 </button>
               </div>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-ink-faint">
                 运行后 Claude Code 会自动识别截图中的基金持仓信息
               </p>
             </div>
@@ -245,7 +245,7 @@ export default function ImportPage() {
             {/* Refresh button */}
             <button
               onClick={loadFunds}
-              className="w-full py-2.5 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
+              className="w-full py-2.5 bg-accent hover:bg-accent/90 active:bg-accent/80 text-white text-sm font-medium rounded-xl transition-colors"
             >
               刷新识别结果
             </button>
@@ -257,28 +257,28 @@ export default function ImportPage() {
           <>
             <ImageUploader onImage={handleImage} />
 
-            <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-3">
-              <h3 className="text-sm font-medium text-gray-700">使用说明</h3>
-              <div className="space-y-2 text-xs text-gray-400">
+            <div className="bg-surface rounded-xl border border-gray-100 p-4 space-y-3">
+              <h3 className="text-sm font-medium text-ink">使用说明</h3>
+              <div className="space-y-2 text-xs text-ink-faint">
                 <div className="flex items-start gap-2">
-                  <span className="bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">1</span>
+                  <span className="bg-accent/20 text-accent rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">1</span>
                   <span>上传理财通/支付宝的基金持仓截图</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">2</span>
+                  <span className="bg-accent/20 text-accent rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">2</span>
                   <span>复制识别命令，在 Claude Code 中运行</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">3</span>
+                  <span className="bg-accent/20 text-accent rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">3</span>
                   <span>点击"刷新识别结果"查看并编辑识别结果</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">4</span>
+                  <span className="bg-accent/20 text-accent rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 text-xs font-medium">4</span>
                   <span>确认信息无误后，一键导入到持仓</span>
                 </div>
               </div>
-              <div className="mt-3 p-2 bg-blue-50 rounded-lg">
-                <p className="text-xs text-blue-600">
+              <div className="mt-3 p-2 bg-accent/10 rounded-lg">
+                <p className="text-xs text-accent">
                   提示：无需 API Key，Claude Code 自身即可识别截图中的基金信息
                 </p>
               </div>

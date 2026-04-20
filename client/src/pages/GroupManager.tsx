@@ -96,13 +96,13 @@ export default function GroupManagerPage() {
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-4 py-3 flex items-center">
+      <div className="bg-surface border-b border-gray-100 px-4 py-3 flex items-center">
         <button onClick={() => mode === 'list' ? navigate(-1) : setMode('list')} className="p-1 -ml-1 mr-3">
           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h1 className="text-[16px] font-semibold text-gray-800">
+        <h1 className="text-[16px] font-semibold text-ink">
           {mode === 'list' ? '账户管理' : mode === 'create' ? '新建分组' : '编辑分组'}
         </h1>
       </div>
@@ -118,16 +118,16 @@ export default function GroupManagerPage() {
               return (
                 <div
                   key={group.id}
-                  className="flex items-center justify-between py-3 px-4 rounded-xl bg-white"
+                  className="flex items-center justify-between py-3 px-4 rounded-xl bg-surface"
                 >
                   <div className="flex items-center gap-2.5">
                     <span className="text-xl">{group.icon}</span>
                     <div>
-                      <span className="text-[14px] text-gray-800 font-medium">{group.name}</span>
+                      <span className="text-[14px] text-ink font-medium">{group.name}</span>
                       {group.isPreset && (
-                        <span className="ml-1.5 text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">预设</span>
+                        <span className="ml-1.5 text-[10px] text-ink-faint bg-surface-bg px-1.5 py-0.5 rounded">预设</span>
                       )}
-                      <p className="text-[11px] text-gray-400 mt-0.5">
+                      <p className="text-[11px] text-ink-faint mt-0.5">
                         {pCount > 0 && `${pCount} 只持仓`}
                         {pCount > 0 && wCount > 0 && ' · '}
                         {wCount > 0 && `${wCount} 只自选`}
@@ -139,21 +139,21 @@ export default function GroupManagerPage() {
                     {total > 0 && (
                       <button
                         onClick={() => handleClear(group.id, group.name)}
-                        className="text-[12px] text-orange-500 px-2.5 py-1.5 rounded-lg active:bg-orange-50"
+                        className="text-[12px] text-[#A67B20] px-2.5 py-1.5 rounded-lg active:bg-orange-50"
                       >
                         清空
                       </button>
                     )}
                     <button
                       onClick={() => startEdit(group.id)}
-                      className="text-[12px] text-blue-500 px-2.5 py-1.5 rounded-lg active:bg-blue-50"
+                      className="text-[12px] text-accent px-2.5 py-1.5 rounded-lg active:bg-blue-50"
                     >
                       编辑
                     </button>
                     {!group.isPreset && (
                       <button
                         onClick={() => handleDelete(group.id, group.name)}
-                        className="text-[12px] text-red-500 px-2.5 py-1.5 rounded-lg active:bg-red-50"
+                        className="text-[12px] text-rise px-2.5 py-1.5 rounded-lg active:bg-red-50"
                       >
                         删除
                       </button>
@@ -167,7 +167,7 @@ export default function GroupManagerPage() {
           {/* Create button */}
           <button
             onClick={startCreate}
-            className="w-full bg-blue-500 text-white py-3 rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors"
+            className="w-full bg-accent text-white py-3 rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors"
           >
             + 新建分组
           </button>
@@ -175,7 +175,7 @@ export default function GroupManagerPage() {
           {/* Settings link */}
           <Link
             to="/settings"
-            className="block text-center text-[13px] text-gray-400 mt-6 py-2 active:text-gray-600"
+            className="block text-center text-[13px] text-ink-faint mt-6 py-2 active:text-gray-600"
           >
             ⚙ 应用设置
           </Link>
@@ -183,7 +183,7 @@ export default function GroupManagerPage() {
       ) : (
         /* Create / Edit form */
         <div className="max-w-lg mx-auto p-4 space-y-4">
-          <div className="bg-white rounded-xl p-4 space-y-4">
+          <div className="bg-surface rounded-xl p-4 space-y-4">
             <div>
               <label className="text-xs text-gray-500 mb-1.5 block">分组名称</label>
               <input
@@ -206,8 +206,8 @@ export default function GroupManagerPage() {
                     onClick={() => setIcon(emoji)}
                     className={`w-10 h-10 rounded-xl text-lg flex items-center justify-center transition-colors ${
                       icon === emoji
-                        ? 'bg-blue-50 ring-2 ring-blue-500'
-                        : 'bg-gray-50 hover:bg-gray-100'
+                        ? 'bg-accent/10 ring-2 ring-accent'
+                        : 'bg-surface-bg hover:bg-gray-100'
                     }`}
                   >
                     {emoji}
@@ -219,7 +219,7 @@ export default function GroupManagerPage() {
             <button
               onClick={mode === 'create' ? handleCreate : handleUpdate}
               disabled={!name.trim()}
-              className="w-full bg-blue-500 text-white py-3 rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-accent text-white py-3 rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {mode === 'create' ? '确认创建' : '保存修改'}
             </button>

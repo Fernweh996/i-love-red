@@ -126,25 +126,25 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-4 py-3 flex items-center">
+      <div className="bg-surface border-b border-gray-100 px-4 py-3 flex items-center">
         <button onClick={() => navigate(-1)} className="p-1 -ml-1 mr-3">
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-ink-secondary" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h1 className="text-[16px] font-semibold text-gray-800">应用设置</h1>
+        <h1 className="text-[16px] font-semibold text-ink">应用设置</h1>
       </div>
 
       <div className="max-w-lg mx-auto p-4 space-y-4">
         {/* Security section */}
-        <div className="bg-white rounded-xl p-4">
-          <h2 className="text-[13px] text-gray-400 font-medium mb-3">🔐 安全设置</h2>
+        <div className="bg-surface rounded-xl p-4">
+          <h2 className="text-[13px] text-ink-faint font-medium mb-3">🔐 安全设置</h2>
 
           {/* PIN status */}
           <div className="flex items-center justify-between py-2">
             <div>
-              <p className="text-[14px] text-gray-800">PIN 码锁</p>
-              <p className="text-[11px] text-gray-400 mt-0.5">
+              <p className="text-[14px] text-ink">PIN 码锁</p>
+              <p className="text-[11px] text-ink-faint mt-0.5">
                 {hasPin ? '已设置' : '未设置'}
               </p>
             </div>
@@ -153,13 +153,13 @@ export default function SettingsPage() {
                 <>
                   <button
                     onClick={() => setShowPinSetup(true)}
-                    className="text-[12px] text-blue-500 px-2.5 py-1.5 rounded-lg active:bg-blue-50"
+                    className="text-[12px] text-accent px-2.5 py-1.5 rounded-lg active:bg-accent/10"
                   >
                     修改
                   </button>
                   <button
                     onClick={handleRemovePin}
-                    className="text-[12px] text-red-500 px-2.5 py-1.5 rounded-lg active:bg-red-50"
+                    className="text-[12px] text-rise px-2.5 py-1.5 rounded-lg active:bg-red-50"
                   >
                     关闭
                   </button>
@@ -167,7 +167,7 @@ export default function SettingsPage() {
               ) : (
                 <button
                   onClick={() => setShowPinSetup(true)}
-                  className="text-[12px] text-blue-500 px-2.5 py-1.5 rounded-lg active:bg-blue-50"
+                  className="text-[12px] text-accent px-2.5 py-1.5 rounded-lg active:bg-accent/10"
                 >
                   设置 PIN
                 </button>
@@ -178,7 +178,7 @@ export default function SettingsPage() {
           {/* Lock frequency */}
           {hasPin && (
             <div className="mt-3 pt-3 border-t border-gray-100">
-              <p className="text-[13px] text-gray-600 mb-2">解锁频率</p>
+              <p className="text-[13px] text-ink-secondary mb-2">解锁频率</p>
               <div className="flex gap-2">
                 {(Object.keys(LOCK_MODE_LABELS) as LockMode[]).map((mode) => (
                   <button
@@ -186,8 +186,8 @@ export default function SettingsPage() {
                     onClick={() => setLockMode(mode)}
                     className={`flex-1 py-2 rounded-lg text-[12px] transition-colors ${
                       lockMode === mode
-                        ? 'bg-blue-50 text-blue-600 ring-1 ring-blue-200'
-                        : 'bg-gray-50 text-gray-500'
+                        ? 'bg-accent/10 text-accent ring-1 ring-accent/30'
+                        : 'bg-surface-bg text-gray-500'
                     }`}
                   >
                     {LOCK_MODE_LABELS[mode]}
@@ -199,18 +199,18 @@ export default function SettingsPage() {
         </div>
 
         {/* Data management section */}
-        <div className="bg-white rounded-xl p-4">
-          <h2 className="text-[13px] text-gray-400 font-medium mb-3">💾 数据管理</h2>
+        <div className="bg-surface rounded-xl p-4">
+          <h2 className="text-[13px] text-ink-faint font-medium mb-3">💾 数据管理</h2>
 
           <button
             onClick={handleExport}
             className="w-full flex items-center justify-between py-3 border-b border-gray-50"
           >
             <div className="text-left">
-              <p className="text-[14px] text-gray-800">导出数据</p>
-              <p className="text-[11px] text-gray-400 mt-0.5">备份持仓、自选和分组数据</p>
+              <p className="text-[14px] text-ink">导出数据</p>
+              <p className="text-[11px] text-ink-faint mt-0.5">备份持仓、自选和分组数据</p>
             </div>
-            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-ink-faint" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -220,10 +220,10 @@ export default function SettingsPage() {
             className="w-full flex items-center justify-between py-3"
           >
             <div className="text-left">
-              <p className="text-[14px] text-gray-800">导入数据</p>
-              <p className="text-[11px] text-gray-400 mt-0.5">从备份文件恢复数据</p>
+              <p className="text-[14px] text-ink">导入数据</p>
+              <p className="text-[11px] text-ink-faint mt-0.5">从备份文件恢复数据</p>
             </div>
-            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-ink-faint" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>

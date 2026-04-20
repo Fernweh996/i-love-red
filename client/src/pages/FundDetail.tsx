@@ -77,7 +77,7 @@ export default function FundDetailPage() {
   return (
     <div className="min-h-screen bg-[#f5f5f5] pb-20">
       {/* Blue Header */}
-      <div className="bg-gradient-to-b from-blue-600 to-blue-500 text-white px-4 pt-3 pb-5">
+      <div className="bg-surface border-b border-border px-4 pt-3 pb-5">
         <div className="flex items-center mb-4">
           <button onClick={() => navigate(-1)} className="p-1 -ml-1 mr-3">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -85,10 +85,10 @@ export default function FundDetailPage() {
             </svg>
           </button>
           <div className="flex-1 text-center">
-            <p className="text-[15px] font-medium leading-tight">
+            <p className="text-[15px] font-medium leading-tight text-ink">
               {loading ? '加载中...' : estimate?.name || code}
             </p>
-            <p className="text-[11px] text-blue-200 mt-0.5">{code}</p>
+            <p className="text-[11px] text-ink-secondary mt-0.5">{code}</p>
           </div>
           <div className="w-5" />
         </div>
@@ -96,7 +96,7 @@ export default function FundDetailPage() {
         {estimate && (
           <div className="flex items-end justify-between">
             <div>
-              <p className="text-[11px] text-blue-200 flex items-center gap-1">
+              <p className="text-[11px] text-ink-secondary flex items-center gap-1">
                 当日涨幅
                 <NavSourceBadge source={estimate.navSource} />
               </p>
@@ -105,7 +105,7 @@ export default function FundDetailPage() {
               </p>
             </div>
             <div className="text-right">
-              <p className="text-[11px] text-blue-200 flex items-center justify-end gap-1">
+              <p className="text-[11px] text-ink-secondary flex items-center justify-end gap-1">
                 最新净值
                 <NavSourceBadge source={estimate.navSource} />
               </p>
@@ -122,7 +122,7 @@ export default function FundDetailPage() {
       ) : (
         <>
           {position && stats && (
-            <div className="bg-white mx-3 -mt-2 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-surface mx-3 -mt-2 rounded-xl shadow-sm overflow-hidden">
               <div className="grid grid-cols-3 divide-x divide-gray-50">
                 <StatCell label="持有金额" value={formatCurrency(stats.marketValue)} />
                 <StatCell label="持有份额" value={position.shares.toFixed(2)} />
@@ -143,12 +143,12 @@ export default function FundDetailPage() {
               </div>
               <div className="border-t border-gray-50 grid grid-cols-3 divide-x divide-gray-50">
                 <div className="px-3 py-3">
-                  <p className="text-[11px] text-gray-400 mb-1 flex items-center gap-1">
+                  <p className="text-[11px] text-ink-faint mb-1 flex items-center gap-1">
                     当日收益
                     {stats.isEstimate ? (
-                      <span className="text-[9px] bg-orange-100 text-orange-500 px-1 py-[0.5px] rounded">估</span>
+                      <span className="text-[9px] bg-[#FAF5E6] text-[#A67B20] px-1 py-[0.5px] rounded">估</span>
                     ) : (
-                      <span className="text-[9px] bg-green-100 text-green-600 px-1 py-[0.5px] rounded">已更新</span>
+                      <span className="text-[9px] bg-[#EBF5EF] text-[#2E8B57] px-1 py-[0.5px] rounded">已更新</span>
                     )}
                   </p>
                   <p className={`text-[15px] font-semibold leading-tight ${getPriceColor(stats.todayChange)}`}>
@@ -161,31 +161,31 @@ export default function FundDetailPage() {
                     ? `${stats.yesterdayChange >= 0 ? '+' : ''}${formatCurrency(stats.yesterdayChange)}`
                     : '--'
                   }
-                  valueClass={stats.yesterdayChange !== undefined ? getPriceColor(stats.yesterdayChange) : 'text-gray-400'}
+                  valueClass={stats.yesterdayChange !== undefined ? getPriceColor(stats.yesterdayChange) : 'text-ink-faint'}
                 />
                 <StatCell label="持有天数" value={`${stats.holdDays}`} />
               </div>
             </div>
           )}
 
-          <div className="flex bg-white mx-3 mt-3 rounded-t-xl border-b border-gray-100">
+          <div className="flex bg-surface mx-3 mt-3 rounded-t-xl border-b border-gray-100">
             {tabs.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={`flex-1 text-center py-3 text-[13px] relative transition-colors ${
-                  activeTab === tab.key ? 'text-gray-900 font-medium' : 'text-gray-400'
+                  activeTab === tab.key ? 'text-ink font-medium' : 'text-ink-faint'
                 }`}
               >
                 {tab.label}
                 {activeTab === tab.key && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-blue-500 rounded-full" />
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-accent rounded-full" />
                 )}
               </button>
             ))}
           </div>
 
-          <div className="mx-3 bg-white rounded-b-xl shadow-sm mb-3 overflow-hidden">
+          <div className="mx-3 bg-surface rounded-b-xl shadow-sm mb-3 overflow-hidden">
             {activeTab === 'chart' && <NAVChart code={code} groupId={groupId} />}
             {activeTab === 'holdings' && <HoldingsTable code={code} />}
           </div>
@@ -193,14 +193,14 @@ export default function FundDetailPage() {
       )}
 
       {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
+      <div className="fixed bottom-0 left-0 right-0 bg-surface border-t border-gray-100 z-50">
         <div className="max-w-lg mx-auto flex items-center divide-x divide-gray-100">
           {position ? (
             <>
               {/* 已持仓：修改持仓 */}
               <button
                 onClick={() => navigate(`/fund/${code}/edit?group=${groupId}`)}
-                className="flex-1 flex flex-col items-center py-2.5 text-gray-600 active:bg-gray-50"
+                className="flex-1 flex flex-col items-center py-2.5 text-ink-secondary active:bg-surface-bg"
               >
                 <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
@@ -210,7 +210,7 @@ export default function FundDetailPage() {
               {/* 已持仓：交易记录 */}
               <button
                 onClick={() => showToast('功能开发中')}
-                className="flex-1 flex flex-col items-center py-2.5 text-gray-600 active:bg-gray-50"
+                className="flex-1 flex flex-col items-center py-2.5 text-ink-secondary active:bg-surface-bg"
               >
                 <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -222,7 +222,7 @@ export default function FundDetailPage() {
             /* 未持仓：添加持仓 */
             <button
               onClick={() => navigate(`/fund/${code}/edit?group=${groupId}`)}
-              className="flex-1 flex flex-col items-center py-2.5 text-blue-600 active:bg-gray-50"
+              className="flex-1 flex flex-col items-center py-2.5 text-accent active:bg-surface-bg"
             >
               <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -242,7 +242,7 @@ export default function FundDetailPage() {
                 showToast('已加入自选');
               }
             }}
-            className={`flex-1 flex flex-col items-center py-2.5 active:bg-gray-50 ${isWatching ? 'text-yellow-500' : 'text-gray-600'}`}
+            className={`flex-1 flex flex-col items-center py-2.5 active:bg-surface-bg ${isWatching ? 'text-[#A67B20]' : 'text-ink-secondary'}`}
           >
             <svg className="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill={isWatching ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
@@ -259,7 +259,7 @@ export default function FundDetailPage() {
                   navigate(-1);
                 }
               }}
-              className="flex-1 flex flex-col items-center py-2.5 text-gray-600 active:bg-gray-50"
+              className="flex-1 flex flex-col items-center py-2.5 text-ink-secondary active:bg-surface-bg"
             >
               <svg className="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -277,7 +277,7 @@ export default function FundDetailPage() {
 function StatCell({
   label,
   value,
-  valueClass = 'text-gray-900',
+  valueClass = 'text-ink',
 }: {
   label: string;
   value: string;
@@ -285,7 +285,7 @@ function StatCell({
 }) {
   return (
     <div className="px-3 py-3">
-      <p className="text-[11px] text-gray-400 mb-1">{label}</p>
+      <p className="text-[11px] text-ink-faint mb-1">{label}</p>
       <p className={`text-[15px] font-semibold leading-tight ${valueClass}`}>{value}</p>
     </div>
   );

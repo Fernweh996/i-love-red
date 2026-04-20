@@ -62,10 +62,10 @@ export default function ImageUploader({ onImage, disabled }: ImageUploaderProps)
         onDragLeave={handleDragLeave}
         className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
           dragActive
-            ? 'border-blue-400 bg-blue-50'
+            ? 'border-accent bg-accent/10'
             : disabled
-            ? 'border-gray-200 bg-gray-50 cursor-not-allowed'
-            : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50/50'
+            ? 'border-border-light bg-surface-bg cursor-not-allowed'
+            : 'border-border hover:border-accent hover:bg-accent/5'
         }`}
       >
         <input
@@ -84,22 +84,22 @@ export default function ImageUploader({ onImage, disabled }: ImageUploaderProps)
               alt="uploaded preview"
               className="max-h-48 mx-auto rounded-lg shadow-sm"
             />
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-ink-secondary">
               {disabled ? '识别中...' : '点击重新选择图片'}
             </p>
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="w-16 h-16 mx-auto rounded-full bg-blue-50 flex items-center justify-center">
-              <svg className="w-8 h-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <div className="w-16 h-16 mx-auto rounded-full bg-accent/10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
               </svg>
             </div>
             <div>
-              <p className="text-base font-medium text-gray-700">上传持仓截图</p>
-              <p className="text-sm text-gray-400 mt-1">支持拍照或从相册选择</p>
-              <p className="text-xs text-gray-300 mt-1">JPG / PNG，不超过 10MB</p>
+              <p className="text-base font-medium text-ink">上传持仓截图</p>
+              <p className="text-sm text-ink-faint mt-1">支持拍照或从相册选择</p>
+              <p className="text-xs text-ink-faint mt-1">JPG / PNG，不超过 10MB</p>
             </div>
           </div>
         )}

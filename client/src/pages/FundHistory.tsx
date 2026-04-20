@@ -61,7 +61,7 @@ export default function FundHistoryPage() {
   return (
     <div className="min-h-screen bg-[#f5f5f5] pb-6">
       {/* Header */}
-      <div className="bg-white sticky top-0 z-10 border-b border-gray-100">
+      <div className="bg-surface sticky top-0 z-10 border-b border-gray-100">
         <div className="flex items-center px-4 py-3">
           <button
             onClick={() => navigate(-1)}
@@ -72,10 +72,10 @@ export default function FundHistoryPage() {
             </svg>
           </button>
           <div className="flex-1 text-center">
-            <p className="text-[15px] font-medium text-gray-900 leading-tight">
+            <p className="text-[15px] font-medium text-ink leading-tight">
               {fundName || '历史净值'}
             </p>
-            <p className="text-[11px] text-gray-400 mt-0.5">{code}</p>
+            <p className="text-[11px] text-ink-faint mt-0.5">{code}</p>
           </div>
           <div className="w-5" />
         </div>
@@ -84,9 +84,9 @@ export default function FundHistoryPage() {
       {initialLoading ? (
         <LoadingSpinner text="加载历史净值..." />
       ) : (
-        <div className="mx-3 mt-3 bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="mx-3 mt-3 bg-surface rounded-xl shadow-sm overflow-hidden">
           {/* Table header */}
-          <div className="flex text-[11px] text-gray-400 px-3 py-2.5 border-b border-gray-100">
+          <div className="flex text-[11px] text-ink-faint px-3 py-2.5 border-b border-gray-100">
             <span className="flex-1">日期</span>
             <span className="w-20 text-right">单位净值</span>
             <span className="w-20 text-right">日涨幅</span>
@@ -102,7 +102,7 @@ export default function FundHistoryPage() {
               <span className="w-20 text-right text-gray-800">{r.nav.toFixed(4)}</span>
               <span
                 className={`w-20 text-right font-medium ${
-                  r.changeRate > 0 ? 'text-rise' : r.changeRate < 0 ? 'text-fall' : 'text-gray-400'
+                  r.changeRate > 0 ? 'text-rise' : r.changeRate < 0 ? 'text-fall' : 'text-ink-faint'
                 }`}
               >
                 {r.changeRate > 0 ? '+' : ''}
@@ -116,7 +116,7 @@ export default function FundHistoryPage() {
             <button
               onClick={() => loadPage(page + 1)}
               disabled={loading}
-              className="w-full py-3 text-[13px] text-blue-500 border-t border-gray-100 disabled:text-gray-300"
+              className="w-full py-3 text-[13px] text-accent border-t border-gray-100 disabled:text-gray-300"
             >
               {loading ? '加载中...' : '加载更多'}
             </button>

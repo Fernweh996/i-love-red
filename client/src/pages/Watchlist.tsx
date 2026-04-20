@@ -49,12 +49,12 @@ function WatchCard({ fundCode, fundName, fundType, onRemove, onClick }: WatchCar
   const typeLabel = fundType ? fundType.replace(/型.*$/, '').slice(0, 4) : '';
 
   return (
-    <div className="relative overflow-hidden bg-white">
-      <div className="absolute right-0 top-0 bottom-0 w-[72px] flex items-center justify-center bg-red-500">
+    <div className="relative overflow-hidden bg-surface">
+      <div className="absolute right-0 top-0 bottom-0 w-[72px] flex items-center justify-center bg-rise">
         <button onClick={onRemove} className="text-white text-xs font-medium w-full h-full">移除</button>
       </div>
       <div
-        className="relative bg-white flex items-center min-h-[56px] px-4 active:bg-gray-50 transition-transform"
+        className="relative bg-surface flex items-center min-h-[56px] px-4 active:bg-surface-bg transition-transform"
         style={{ transform: `translateX(${offsetX}px)`, transition: swiping ? 'none' : 'transform 0.2s ease-out' }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
@@ -63,18 +63,18 @@ function WatchCard({ fundCode, fundName, fundType, onRemove, onClick }: WatchCar
       >
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
-            <p className="text-[14px] font-medium text-gray-800 truncate">{fundName}</p>
+            <p className="text-[14px] font-medium text-ink truncate">{fundName}</p>
             {typeLabel && (
-              <span className="flex-shrink-0 text-[9px] text-blue-500 bg-blue-50 px-1 py-[1px] rounded">{typeLabel}</span>
+              <span className="flex-shrink-0 text-[9px] text-ink-secondary border border-border px-1 py-[1px] rounded">{typeLabel}</span>
             )}
           </div>
-          <p className="text-[11px] text-gray-400 mt-0.5">{fundCode}</p>
+          <p className="text-[11px] text-ink-faint mt-0.5">{fundCode}</p>
         </div>
         <div className="flex items-center gap-4">
           <span className={`text-[15px] font-bold ${getPriceColor(changeRate)}`}>
             {formatPercent(changeRate)}
           </span>
-          <span className="text-[13px] text-gray-600 w-[60px] text-right">
+          <span className="text-[13px] text-ink-secondary w-[60px] text-right">
             {currentNav > 0 ? currentNav.toFixed(4) : '--'}
           </span>
         </div>
@@ -124,13 +124,13 @@ export default function WatchlistPage() {
         ) : (
           <>
             {/* Column header */}
-            <div className="flex items-center px-4 bg-white border-b border-gray-50 min-h-[32px]">
-              <span className="flex-1 text-[11px] text-gray-400">基金名称</span>
-              <span className="text-[11px] text-gray-400 w-[80px] text-center">涨跌幅</span>
-              <span className="text-[11px] text-gray-400 w-[60px] text-right">净值</span>
+            <div className="flex items-center px-4 bg-surface border-b border-surface-bg min-h-[32px]">
+              <span className="flex-1 text-[11px] text-ink-faint">基金名称</span>
+              <span className="text-[11px] text-ink-faint w-[80px] text-center">涨跌幅</span>
+              <span className="text-[11px] text-ink-faint w-[60px] text-right">净值</span>
             </div>
 
-            <div key={activeGroupId} className="divide-y divide-gray-50 animate-fade-in-up">
+            <div key={activeGroupId} className="divide-y divide-surface-bg animate-fade-in-up">
               {filteredItems.map((item) => (
                 <WatchCard
                   key={`${item.fundCode}-${item.groupId}`}
@@ -146,8 +146,8 @@ export default function WatchlistPage() {
               ))}
             </div>
 
-            <div className="px-4 py-3 bg-white mt-px">
-              <span className="text-[10px] text-gray-300">← 左滑可移除</span>
+            <div className="px-4 py-3 bg-surface mt-px">
+              <span className="text-[10px] text-ink-faint">← 左滑可移除</span>
             </div>
           </>
         )}
