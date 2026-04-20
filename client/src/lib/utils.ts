@@ -68,9 +68,25 @@ export function getPollingInterval(hasConfirmedNav?: boolean): number {
 }
 
 /**
- * 获取当前最优净值：confirmedNav → estimateNav → lastNav → fallback
+ * 获取当前最优净值（确认优先，不含盘中估算）
+ * 用于持有收益等需要稳定数值的场景
  */
 export function getCurrentNav(
+  estimate: import('@/types').FundEstimate | undefined,
+  fallback: number
+): number {
+  if (!estimate) return fallback;
+  if (estimate.confirmedNav) return estimate.confirmedNav;
+  if (estimate.lastNav) return estimate.lastNav;
+  return fallback;
+}
+
+/**
+ * 获取实时净值（含盘中估算）
+ * 用于今日涨跌、当日收益等需要实时数据的场景
+ * 优先级：confirmedNav → estimateNav → lastNav → fallback
+ */
+export function getRealtimeNav(
   estimate: import('@/types').FundEstimate | undefined,
   fallback: number
 ): number {

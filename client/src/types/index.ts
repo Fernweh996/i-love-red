@@ -85,6 +85,7 @@ export interface PositionPnL {
   todayChange: number;       // 今日涨跌额
   todayChangeRate: number;   // 今日涨跌幅 %
   estimate?: FundEstimate;   // 实时估值数据
+  weekProfit?: number;       // 本周收益
 }
 
 // 截图识别的基金信息

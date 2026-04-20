@@ -3,13 +3,16 @@ import type { FundEstimate } from '@/types';
 
 interface FundCacheState {
   estimates: Record<string, FundEstimate>;
+  weekNavs: Record<string, number>; // fundCode → nav at week start (last Friday close)
   setEstimate: (code: string, estimate: FundEstimate) => void;
   setEstimates: (estimates: FundEstimate[]) => void;
   getEstimate: (code: string) => FundEstimate | undefined;
+  setWeekNavs: (navs: Record<string, number>) => void;
 }
 
 export const useFundCacheStore = create<FundCacheState>()((set, get) => ({
   estimates: {},
+  weekNavs: {},
 
   setEstimate: (code, estimate) => {
     set((state) => ({
@@ -29,5 +32,11 @@ export const useFundCacheStore = create<FundCacheState>()((set, get) => ({
 
   getEstimate: (code) => {
     return get().estimates[code];
+  },
+
+  setWeekNavs: (navs) => {
+    set((state) => ({
+      weekNavs: { ...state.weekNavs, ...navs },
+    }));
   },
 }));

@@ -5,7 +5,7 @@ const periods: { value: Period; label: string }[] = [
   { value: '3m', label: '3月' },
   { value: '6m', label: '6月' },
   { value: '1y', label: '1年' },
-  { value: 'all', label: '全部' },
+  { value: 'all', label: '成立以来' },
 ];
 
 interface Props {

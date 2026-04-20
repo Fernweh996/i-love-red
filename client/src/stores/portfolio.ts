@@ -28,6 +28,8 @@ interface PortfolioState {
   removePosition: (fundCode: string, groupId: string) => void;
   updatePosition: (fundCode: string, groupId: string, shares: number, costNav: number) => void;
   addToPosition: (fundCode: string, groupId: string, shares: number, costNav: number) => void;
+  reducePosition: (fundCode: string, groupId: string, reduceShares: number) => void;
+  convertPosition: (fundCode: string, groupId: string, toFundCode: string, toFundName: string, shares: number, toNav: number, toFundType?: string) => void;
   patchFundInfo: (fundCode: string, name: string, fundType?: string) => void;
 }
 
@@ -156,6 +158,51 @@ export const usePortfolioStore = create<PortfolioState>()(
             };
           }),
         }));
+      },
+
+      reducePosition: (fundCode, groupId, reduceShares) => {
+        const pos = get().positions.find(
+          (p) => p.fundCode === fundCode && p.groupId === groupId
+        );
+        if (!pos) return;
+        const remaining = pos.shares - reduceShares;
+        if (remaining <= 0) {
+          // Remove entirely
+          get().removePosition(fundCode, groupId);
+          return;
+        }
+        // Reduce shares, totalCost proportionally
+        const ratio = remaining / pos.shares;
+        set((state) => ({
+          positions: state.positions.map((p) =>
+            p.fundCode === fundCode && p.groupId === groupId
+              ? {
+                  ...p,
+                  shares: remaining,
+                  totalCost: p.totalCost * ratio,
+                  updateTime: Date.now(),
+                }
+              : p
+          ),
+        }));
+      },
+
+      convertPosition: (fundCode, groupId, toFundCode, toFundName, shares, toNav, toFundType) => {
+        // Fund-to-fund conversion: reduce source fund shares, add to target fund
+        const source = get().positions.find(
+          (p) => p.fundCode === fundCode && p.groupId === groupId
+        );
+        if (!source || shares <= 0 || shares > source.shares) return;
+
+        // 1. Reduce source fund
+        get().reducePosition(fundCode, groupId, shares);
+
+        // 2. Calculate conversion: transferred value = shares * source costNav
+        const transferValue = shares * source.costNav;
+        const toShares = transferValue / toNav;
+
+        // 3. Add to target fund (addPosition handles merge if already exists)
+        get().addPosition(toFundCode, toFundName, toShares, toNav, toFundType, groupId);
       },
 
       patchFundInfo: (fundCode, name, fundType) => {

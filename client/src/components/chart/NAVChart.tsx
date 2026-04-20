@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -12,11 +13,15 @@ import { useFundHistory, type Period } from '@/hooks/useFundHistory';
 import PeriodSelector from './PeriodSelector';
 import LoadingSpinner from '@/components/shared/LoadingSpinner';
 
+const MAX_LIST_ROWS = 30;
+
 interface Props {
   code: string;
+  groupId?: string;
 }
 
-export default function NAVChart({ code }: Props) {
+export default function NAVChart({ code, groupId }: Props) {
+  const navigate = useNavigate();
   const [period, setPeriod] = useState<Period>('3m');
   const { records, loading, error } = useFundHistory(code, period);
 
@@ -46,6 +51,14 @@ export default function NAVChart({ code }: Props) {
 
   const startNav = records.length > 0 ? records[0].nav : 0;
   const lineColor = overallChange >= 0 ? '#ef4444' : '#22c55e';
+
+  // Records newest-first for the list display
+  const listRecords = useMemo(() => {
+    return [...records].reverse();
+  }, [records]);
+
+  const displayRecords = listRecords.slice(0, MAX_LIST_ROWS);
+  const showViewAll = listRecords.length > MAX_LIST_ROWS;
 
   return (
     <div className="px-3 pb-4">
@@ -113,6 +126,45 @@ export default function NAVChart({ code }: Props) {
               />
             </LineChart>
           </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* NAV History List */}
+      {!loading && !error && records.length > 0 && (
+        <div className="border-t border-gray-100 mt-2">
+          <div className="flex items-center justify-between px-3 py-2.5">
+            <span className="text-[13px] font-medium text-gray-800">过往净值</span>
+            <span className="text-[11px] text-gray-400">共{listRecords.length}个交易日</span>
+          </div>
+          <div className="px-3">
+            <div className="flex text-[11px] text-gray-400 pb-1.5 border-b border-gray-50">
+              <span className="flex-1">日期</span>
+              <span className="w-20 text-right">单位净值</span>
+              <span className="w-20 text-right">日涨幅</span>
+            </div>
+            {displayRecords.map((r) => (
+              <div key={r.date} className="flex items-center text-[12px] py-2 border-b border-gray-50 last:border-b-0">
+                <span className="flex-1 text-gray-600">{r.date}</span>
+                <span className="w-20 text-right text-gray-800">{r.nav.toFixed(4)}</span>
+                <span className={`w-20 text-right font-medium ${
+                  r.changeRate > 0 ? 'text-rise' : r.changeRate < 0 ? 'text-fall' : 'text-gray-400'
+                }`}>
+                  {r.changeRate > 0 ? '+' : ''}{r.changeRate.toFixed(2)}%
+                </span>
+              </div>
+            ))}
+          </div>
+          {showViewAll && (
+            <button
+              onClick={() => navigate(`/fund/${code}/history${groupId ? `?group=${groupId}` : ''}`)}
+              className="w-full py-3 text-[13px] text-blue-500 border-t border-gray-100 flex items-center justify-center gap-1"
+            >
+              查看历史净值
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
         </div>
       )}
     </div>

@@ -7,15 +7,17 @@ import NavSourceBadge from '@/components/shared/NavSourceBadge';
 
 interface Props {
   pnl: PositionPnL;
+  totalMarketValue: number;
   scrollRef?: (el: HTMLDivElement | null) => void;
   onScroll?: () => void;
   isLast?: boolean;
 }
 
-export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props) {
+export default function PositionCard({ pnl, totalMarketValue, scrollRef, onScroll, isLast }: Props) {
   const navigate = useNavigate();
   const removePosition = usePortfolioStore((s) => s.removePosition);
-  const { position, currentNav, marketValue, profit, profitRate, todayChange, todayChangeRate } = pnl;
+  const { position, currentNav, marketValue, profit, profitRate, todayChange, todayChangeRate, weekProfit } = pnl;
+  const weight = totalMarketValue > 0 ? (marketValue / totalMarketValue) * 100 : 0;
 
   const [offsetX, setOffsetX] = useState(0);
   const [swiping, setSwiping] = useState(false);
@@ -76,7 +78,7 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               </span>
             )}
           </div>
-          <p className="text-[14px] text-ink-faint mt-1 tabular-nums">¥{formatCurrency(marketValue)}</p>
+          <p className="text-[14px] text-ink-faint mt-1 tabular-nums">¥{marketValue.toFixed(2)}</p>
         </div>
 
         <div className="flex-1 overflow-x-auto scrollbar-hide" ref={scrollRef} onScroll={onScroll}>
@@ -96,6 +98,20 @@ export default function PositionCard({ pnl, scrollRef, onScroll, isLast }: Props
               <p className={`text-[14px] mt-0.5 tabular-nums ${getPriceColor(profitRate)}`}>
                 {formatPercent(profitRate)}
               </p>
+            </div>
+            <div className="w-[96px] flex-shrink-0 text-center py-3">
+              {weekProfit !== undefined ? (
+                <>
+                  <p className={`text-[15px] font-medium tabular-nums ${getPriceColor(weekProfit)}`}>
+                    {weekProfit >= 0 ? '+' : ''}{formatCurrency(weekProfit)}
+                  </p>
+                </>
+              ) : (
+                <p className="text-[14px] text-ink-faint">--</p>
+              )}
+            </div>
+            <div className="w-[72px] flex-shrink-0 text-center py-3">
+              <p className="text-[15px] text-ink tabular-nums">{weight.toFixed(1)}%</p>
             </div>
             <div className="w-[80px] flex-shrink-0 text-center py-3">
               <p className="text-[15px] text-ink tabular-nums">{currentNav.toFixed(4)}</p>
