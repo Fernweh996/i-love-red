@@ -4,7 +4,8 @@
   "workspaces": [
     "server",
     "client",
-    "shared"
+    "shared",
+    "mini"
   ],
   "engines": {
     "node": ">=22"
@@ -14,7 +15,9 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "npm run dev -w server",
     "dev:client": "npm run dev -w client",
-    "build": "npm run build -w client && npm run build -w server"
+    "build": "npm run build -w client && npm run build -w server",
+    "dev:mini": "npm run dev:weapp -w mini",
+    "build:mini": "npm run build:weapp -w mini"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

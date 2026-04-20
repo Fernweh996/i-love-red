@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@fund-manager/shared": ["../shared"],
+      "@fund-manager/shared/*": ["../shared/*"]
+    },
+    "baseUrl": ".",
+    "types": ["@tarojs/taro"]
+  },
+  "include": ["src", "../shared"]
+}
