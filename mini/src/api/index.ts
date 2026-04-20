@@ -1,8 +1,7 @@
 import Taro from '@tarojs/taro'
 import type { FundInfo, FundEstimate, NavRecord, HoldingStock, StockQuote } from '@fund-manager/shared'
 
-// TODO: Replace with actual Tencent Cloud server URL after deployment
-const BASE = 'http://localhost:3001/api'
+const BASE = 'http://118.89.30.235:3001/api'
 
 async function fetchJSON<T>(url: string): Promise<T> {
   const res = await Taro.request<T>({

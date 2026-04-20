@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "fund-manager-mini",
   "description": "基金持仓管理工具",
-  "appid": "touristappid",
+  "appid": "wxdcb0ff018be54289",
   "setting": {
     "urlCheck": false,
     "es6": true,

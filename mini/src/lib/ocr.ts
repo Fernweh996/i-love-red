@@ -19,7 +19,7 @@ export async function chooseImage(): Promise<string> {
  */
 export async function recognizeImage(imagePath: string): Promise<string[]> {
   const uploadRes = await Taro.uploadFile({
-    url: 'http://localhost:3001/api/ocr/recognize',
+    url: 'http://118.89.30.235:3001/api/ocr/recognize',
     filePath: imagePath,
     name: 'image',
   })

@@ -21,10 +21,14 @@ export default defineAppConfig({
       {
         pagePath: 'pages/portfolio/index',
         text: '持有',
+        iconPath: 'assets/tab-portfolio.svg',
+        selectedIconPath: 'assets/tab-portfolio-active.svg',
       },
       {
         pagePath: 'pages/watchlist/index',
         text: '自选',
+        iconPath: 'assets/tab-watchlist.svg',
+        selectedIconPath: 'assets/tab-watchlist-active.svg',
       },
     ],
   },
